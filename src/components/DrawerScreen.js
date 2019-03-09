@@ -1,15 +1,16 @@
 import React, {Component} from 'react';
-import {TouchableOpacity, Text, View , StyleSheet , Image , FlatList } from 'react-native';
+import { Text, View , StyleSheet , Image , FlatList , TouchableHighlight } from 'react-native';
 import data from '../components/SectionData'
- 
 export default class DrawerScreen extends Component {
+
+
   render () {
     return (
       <View style = {styles.container}>
         <View style = {styles.headerStyle}>
             <View style = {styles.headerContainer}>
                 <View style = {styles.componentStle}>
-                    <Image source = {require('../assests/1.png')}
+                    <Image source = {require('../assests/1.jpg')}
                     style = {styles.headerImage}/> 
                 </View>
                 <View style = {styles.componentStle}>
@@ -22,26 +23,44 @@ export default class DrawerScreen extends Component {
          data = {data}
          keyExtractor={item => item.name}
          renderItem={({item}) =>( 
-            <TouchableOpacity style = {styles.itemStyle}>
+            <TouchableHighlight style = {styles.itemStyle}
+                onPress = {() => {
+                  this.props.navigation.navigate(item.name , {name : item.name} )
+                  }}>
                 <View style = {styles.itemView}>
                     <Image source = {item.image}
                     style = {styles.itemImage}
                     />
-                    <Text>{item.name}</Text>
+                    <Text style = {styles.textStyle}>{item.name}</Text>
                 </View>
-                
-
-            </TouchableOpacity>
+            </TouchableHighlight>
          ) }
-          
         />
+        <View style = {styles.borderStyle}></View>
+        <View style = {styles.endStyle}>
+          <TouchableHighlight style = {styles.itemStyle}
+          onPress = {() => this.props.navigation.navigate('Edit' , {name : 'Edit'} )}>
+            <View style = {styles.itemView}>
+                <Image source = {require('../assests/edit.png')}
+                style = {styles.itemImage}
+                />
+                <Text style = {styles.textStyle}>Edit Task List</Text>
+            </View>    
+          </TouchableHighlight>
+          <TouchableHighlight style = {styles.itemStyle}
+          onPress = {() => this.props.navigation.navigate('Settings' , {name : 'Settings'})}>
+            <View style = {styles.itemView}>
+                <Image source = {require('../assests/setting.png')}
+                style = {styles.itemImage}
+                />
+                <Text style = {styles.textStyle}>settings</Text>
+            </View>
+          </TouchableHighlight>
+        </View>
       </View>
     );
   }
 }
-
-
-
 
 const styles = StyleSheet.create({
   container: {
@@ -80,8 +99,8 @@ const styles = StyleSheet.create({
     fontSize : 18,
   },
   itemStyle :{
-    marginTop: 15,
-    height : 40 ,
+    marginTop: 12,
+    height : 37 ,
     flexDirection :'row',
     alignItems: 'center',
 
@@ -91,10 +110,25 @@ const styles = StyleSheet.create({
     flexDirection :'row',
     alignItems: 'center',
   },
+  borderStyle :{
+    height : 1 ,
+    marginLeft : 70 ,
+    borderTopColor : '#ababab',
+    marginBottom : 10,
+    marginTop : 10,
+    borderTopWidth : 1,
+  },
   itemImage : {
       width : 25,
       height : 25,
       marginRight : 20
   },
-
+  textStyle :{
+    fontWeight : '200',
+    color : '#9a9a9a',
+    fontSize : 15,
+  },
+  endStyle :{
+    marginBottom : 20,
+  },
 });

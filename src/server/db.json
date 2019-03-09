@@ -1,0 +1,8 @@
+{
+
+    "tasks": [
+        { "id": 1, "text": "buy some suger", "type": "Family" , "date" : "1997/10/15"},
+        { "id": 2, "text": "Mom's birthday", "type": "Family" , "date" : "1997/10/25"},
+        { "id": 3, "text": "Do tasks", "type": "Work" , "date" : "1998/10/15"}
+      ]
+}

@@ -1,28 +1,5 @@
-import { SET_NAME , SET_LASTNAME , SET_ID , SET_ITEM , REMOVE_ITEM , FETCH_PRODUCTS_BEGIN , FETCH_PRODUCTS_SUCCESS , FETCH_PRODUCTS_FAILURE} from "./type";
-// import {store} from '../page/App1'
+import { SET_TYPE , SET_ITEM , REMOVE_ITEM , FETCH_PRODUCTS_BEGIN , FETCH_PRODUCTS_SUCCESS , FETCH_PRODUCTS_FAILURE} from "./type";
 
-
-const setNameAction = text => {
-    return{
-        type: SET_NAME ,
-        payload: text
-
-    };
-};
-
-const setLastnameAction = (text) => {
-    return{
-        type : SET_LASTNAME,
-        payload : text
-    }
-}
-
-const setIdAction = () => {
-    return{
-        type : SET_ID,
-    
-    }
-}
 
 const setItemAction = (text) => {
     return{
@@ -37,13 +14,17 @@ const setRemoveItemAction = (idex)  => {
         payload : idex
     }
 }
-
-
+ const setTypeAction = typeState => {
+   return {
+     type : SET_TYPE,
+     payload : typeState
+   }
+ }
  const fetchProductsBegin = () => ({
     type: FETCH_PRODUCTS_BEGIN
   });
 
-  const fetchProductsSuccess = products => {
+  const fetchProductsSuccess = (products) => {
       return {
         type: FETCH_PRODUCTS_SUCCESS,
         payload:  products 
@@ -60,20 +41,6 @@ const setRemoveItemAction = (idex)  => {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const  setName = text => {
-    return setNameAction(text);
-} ;
-
-export const  setLastname = text => {
-    return setLastnameAction(text);
-} ;
-
-export const  setId = () => {
-    
-    return setIdAction();
-} ;
-
-
 export const  setItem = text => {
     return setItemAction(text);
 } ;
@@ -82,13 +49,17 @@ export const  setRemoveItem = index => {
     return setRemoveItemAction(index);
 } ;
 
+export const setType = type =>{
+  return setTypeAction (type)
+}
+
 
 export const fetchProducts = () => {
     
     return dispatch => {
-        
+         
       dispatch(fetchProductsBegin());
-      fetch("https://api.github.com/users")
+      fetch("http://10.0.2.2:3000/tasks")
         .then(data =>  data.json())
         .then(data => {
           dispatch(fetchProductsSuccess(data));
