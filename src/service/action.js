@@ -1,10 +1,10 @@
 import { SEARCH_ITEM , SET_TYPE , SET_ITEM , REMOVE_ITEM , FETCH_PRODUCTS_BEGIN , FETCH_PRODUCTS_SUCCESS , FETCH_PRODUCTS_FAILURE} from "./type";
 
 
-const setItemAction = (text) => {
+const setItemAction = (obj) => {
     return{
         type : SET_ITEM,
-        payload : text
+        payload : obj
     }
 }
 
@@ -54,8 +54,8 @@ export const setSearchItem = text => {
   return setSearchAction (text);
 };
 
-export const  setItem = text => {
-    return setItemAction(text);
+export const  setItem = () => {
+    return setItemAction({"text": "txt", "type": "Work"});
 } ;
 
 export const  setRemoveItem = index => {

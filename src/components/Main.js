@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {Text, StyleSheet, Image, TouchableOpacity , View , FlatList , Animated , TextInput}  from 'react-native';
 import{connect} from 'react-redux'
-import{ setSearchItem , setType} from '../service/action'
+import{ setSearchItem , setType , setRemoveItem , setItem} from '../service/action'
+import { createAppContainer , createStackNavigator } from 'react-navigation';
 class StartPage extends Component {
 
   constructor (props) {
@@ -32,7 +33,6 @@ class StartPage extends Component {
 settingSearch (){
   
   this.setState ({search : true})
-  console.warn (this.state.search) 
 }
 
   componentDidMount (){
@@ -58,9 +58,12 @@ settingSearch (){
         const name = navigation.getParam('name', 'All');
         return(
             <View style = {styles.container}>
+            
                 {
                   !this.state.search && 
+
                     <View style = {[styles.headerStyle , {justifyContent : 'space-between'}]}>
+                    
                       <View style = {styles.headerStyle}>
                           <TouchableOpacity 
                           style = {styles.drawerBotton}
@@ -86,6 +89,8 @@ settingSearch (){
                               source = {require('../assests/3.png')}/>
                           </TouchableOpacity>
                       </View>
+
+                      
                   </View>
                 }
 
@@ -119,12 +124,14 @@ settingSearch (){
                 }
                 {
                   !this.props.loading &&  
+                  
 
                   <View style = {styles.bodyStyle}>
+                  
                     <FlatList
                       style = {styles.flatStyle}
                       data = {this.props.items}
-                      keyExtractor = {item => item.id.toString()}
+                      keyExtractor = {item => item.text}
                       renderItem ={ ({item , index})  => 
                         <View style = {styles.itemContainer}>
                             <Text style = {styles.textBody} >{item.text}</Text>
@@ -132,14 +139,25 @@ settingSearch (){
                               <TouchableOpacity style = {styles.editStyle}>
                                 <Text style = {styles.textStyle} >Edit</Text>
                               </TouchableOpacity>
-                              <TouchableOpacity style = {styles.deleteStyle}>
+                              <TouchableOpacity 
+                              onPress ={() => this.props.setRemoveItem(index)}
+                              style = {styles.deleteStyle}>
                                 <Text style = {styles.textStyle}>Delete</Text>
                               </TouchableOpacity>
                             </View>
                         </View>
                         }   />
+                   <TouchableOpacity 
+                   onPress = {() => this.props.setItem()}
+                  style = {styles.addStyle}>
+                    <Image 
+                    style = {styles.addImageStyle}
+                    source = {require('../assests/plus.png')}/>
+                  </TouchableOpacity>
                 </View>
                 }
+
+               
             </View>
         )
     }
@@ -153,19 +171,37 @@ const mapStateToProps=(state)=>{
   }
 }
 
-export default connect(mapStateToProps ,{setSearchItem , setType})(StartPage)
+export default connect(mapStateToProps ,{setSearchItem , setType , setRemoveItem , setItem})(StartPage)
 
 
 const styles = StyleSheet.create({
     container: {
       flex: 1,
     },
+    addStyle : {
+      backgroundColor:'white',
+      width : 60,
+      height :60,
+      borderRadius : 50,
+      alignItems : 'center',
+      justifyContent : 'center',
+      position : 'absolute',
+      left:25,
+      bottom:20,
+      zIndex:1
+    },
+    addImageStyle : {
+      width : 60,
+      height :60,
+      borderRadius : 50,
+    },
     flatStyle : {
-      alignContent  : 'center'
+      alignContent  : 'center',
+      zIndex:-1
     },
     searchStyle : {
-      width : 35,
-      height : 35
+      width : 38,
+      height : 38
     },
     threeStyle : {
       width : 20,

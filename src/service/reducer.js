@@ -16,8 +16,8 @@ function reducer(state = initialState, action) {
         case SET_ITEM:
             return {
                 ...state,
-                items : [...state.items , { 'text': action.payload,  'id' : state.id }],
-                selectedItem : [...state.items , { 'text': action.payload,  'id' : state.id }]
+                items : [...state.items , action.payload],
+                selectedItem : [...state.items , action.payload]
             };
         
         case SET_TYPE:
