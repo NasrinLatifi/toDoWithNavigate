@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import { Text, View , StyleSheet , Image , FlatList , TouchableHighlight } from 'react-native';
 import data from '../components/SectionData'
-export default class DrawerScreen extends Component {
-
-
+import{connect} from 'react-redux'
+import{ setType} from '../service/action'
+class DrawerScreen extends Component {
   render () {
     return (
       <View style = {styles.container}>
@@ -25,6 +25,7 @@ export default class DrawerScreen extends Component {
          renderItem={({item}) =>( 
             <TouchableHighlight style = {styles.itemStyle}
                 onPress = {() => {
+                  this.props.setType (item.name );
                   this.props.navigation.navigate(item.name , {name : item.name} )
                   }}>
                 <View style = {styles.itemView}>
@@ -61,6 +62,8 @@ export default class DrawerScreen extends Component {
     );
   }
 }
+
+export default connect( null ,{ setType})(DrawerScreen)
 
 const styles = StyleSheet.create({
   container: {

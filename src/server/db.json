@@ -1,8 +1,13 @@
 {
 
     "tasks": [
-        { "id": 1, "text": "buy some suger", "type": "Family" , "date" : "1997/10/15"},
+        { "id": 0, "text": "buy some suger", "type": "Family" , "date" : "1997/10/15"},
+        { "id": 1, "text": "meeting", "type": "work" , "date" : "2017/10/15"},
         { "id": 2, "text": "Mom's birthday", "type": "Family" , "date" : "1997/10/25"},
-        { "id": 3, "text": "Do tasks", "type": "Work" , "date" : "1998/10/15"}
+        { "id": 3, "text": "Do tasks", "type": "Work" , "date" : "1998/10/15"},
+        { "id": 4, "text": "Happy christmas ", "type": "Wish" , "date" : "1998/11/15"},
+        { "id": 5, "text": "Do projects ", "type": "Study" , "date" : "1999/11/15"},
+        { "id": 6, "text": "Happy BirthDay ", "type": "Wish" , "date" : "1998/11/15"},
+        { "id": 7, "text": "Do HomeWorks ", "type": "Study" , "date" : "2006/11/15"}
       ]
 }

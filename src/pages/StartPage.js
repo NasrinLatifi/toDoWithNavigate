@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import { createAppContainer , createDrawerNavigator } from 'react-navigation';
 import DrawerScreen from '../components/DrawerScreen'
 import StartPage from '../components/Main'
-
+import{connect} from 'react-redux'
+import{fetchProducts } from '../service/action'
 
 
 const MyDrawerNavigator = createDrawerNavigator(
@@ -54,9 +55,16 @@ const MyDrawerNavigator = createDrawerNavigator(
   );
   
 
-  export default createAppContainer(MyDrawerNavigator);
-
-
+  const AppContainer = createAppContainer(MyDrawerNavigator);
+ class App extends Component {
+    componentDidMount (){
+      this.props.fetchProducts();
+    }
+    render() {
+      return <AppContainer />;
+    }
+  }
+  export default connect(null,{fetchProducts })(App)
 
 
 

@@ -1,4 +1,4 @@
-import { SET_TYPE , SET_ITEM , REMOVE_ITEM , FETCH_PRODUCTS_BEGIN , FETCH_PRODUCTS_SUCCESS , FETCH_PRODUCTS_FAILURE} from "./type";
+import { SEARCH_ITEM , SET_TYPE , SET_ITEM , REMOVE_ITEM , FETCH_PRODUCTS_BEGIN , FETCH_PRODUCTS_SUCCESS , FETCH_PRODUCTS_FAILURE} from "./type";
 
 
 const setItemAction = (text) => {
@@ -15,6 +15,7 @@ const setRemoveItemAction = (idex)  => {
     }
 }
  const setTypeAction = typeState => {
+  
    return {
      type : SET_TYPE,
      payload : typeState
@@ -37,9 +38,21 @@ const setRemoveItemAction = (idex)  => {
     payload:  error 
   });
 
+  const setSearchAction = (text) => {
+    return{
+        
+        type : SEARCH_ITEM,
+        payload : text
+    }
+}
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const setSearchItem = text => {
+
+  return setSearchAction (text);
+};
 
 export const  setItem = text => {
     return setItemAction(text);
