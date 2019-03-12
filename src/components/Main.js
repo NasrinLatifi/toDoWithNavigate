@@ -78,7 +78,7 @@ settingSearch (){
                           <TouchableOpacity 
                           onPress = {this.settingSearch.bind(this)}
                           style = {styles.drawerBottonRight}>
-                              <Image 
+                            <Image 
                               style = {styles.searchStyle}
                               source = {require('../assests/search.png')}/>
                           </TouchableOpacity>
@@ -132,7 +132,7 @@ settingSearch (){
                     <FlatList
                       style = {styles.flatStyle}
                       data = {this.props.items}
-                      keyExtractor = {item => item.text}
+                      keyExtractor = {item => item.id.toString()}
                       renderItem ={ ({item , index})  => 
                         <View style = {styles.itemContainer}>
                             <Text style = {styles.textBody} >{item.text}</Text>
@@ -141,7 +141,7 @@ settingSearch (){
                                 <Text style = {styles.textStyle} >Edit</Text>
                               </TouchableOpacity>
                               <TouchableOpacity 
-                              onPress ={() => this.props.navigation.navigate("Add" ,{"type" : name})}
+                              onPress ={() => this.props.setRemoveItem(item.id)}
                               style = {styles.deleteStyle}>
                                 <Text style = {styles.textStyle}>Delete</Text>
                               </TouchableOpacity>
@@ -150,7 +150,7 @@ settingSearch (){
                         }   />
                       <TouchableOpacity 
                       style = {styles.addStyle}
-                        onPress = {() => this.props.setItem("text" , name )}
+                      onPress ={() => this.props.navigation.navigate("Add" ,{"type" : name})}
                         style = {styles.addStyle}>
                           <Image 
                           style = {styles.addImageStyle}

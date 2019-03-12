@@ -4,6 +4,7 @@ import DrawerScreen from '../components/DrawerScreen'
 import StartPage from '../components/Main'
 import{connect} from 'react-redux'
 import{fetchProducts } from '../service/action'
+import AddPage from './AddPage'
 
 const MyDrawerNavigator = createDrawerNavigator(
 
@@ -31,6 +32,9 @@ const MyDrawerNavigator = createDrawerNavigator(
     },
     Settings: {
       screen: StartPage,
+    },
+    Add: {
+      screen: AddPage,
     },
     
   },
