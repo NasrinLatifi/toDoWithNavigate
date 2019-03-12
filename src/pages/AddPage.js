@@ -16,13 +16,7 @@ import{ setItem} from '../service/action'
             this.setState ({text : input})
       }
     }
-    pressButton (){
-        if( this.state.text > 0 ){
-            this.props.setItem(this.state.text , type)
-            this.props.navigation.navigate(type , {name : type})
-        }
-        
-    }
+   
     render(){
         const { navigation } = this.props;
         const type = navigation.getParam('type', 'All');
@@ -58,7 +52,7 @@ import{ setItem} from '../service/action'
                     <TextInput
                      placeholder = "Write your Task =)"
                      style = {styles.textInputStyle}
-                     onChangeText = {this.setText.bind(this)}>
+                     onChangeText = {this.setText.bind(this )}>
                     </TextInput>
 
                 </View>
@@ -66,9 +60,13 @@ import{ setItem} from '../service/action'
                 <View style = {styles.buttonContainer}>
                 <TouchableOpacity 
                       style = {styles.addStyle}
-                      onPress ={() => {
-                            this.pressButton.bind(this)
-                        }}
+                      onPress ={ () => {
+                            if( this.state.text.length > 0 ){
+                                this.props.setItem(this.state.text , type)
+                                this.props.navigation.navigate(type , {name : type})
+                            }
+                            }
+                        }
                         style = {styles.addStyle}>
                           <Image 
                           style = {styles.addImageStyle}
