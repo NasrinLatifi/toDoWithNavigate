@@ -51,7 +51,7 @@ class DrawerScreen extends Component {
           <TouchableHighlight style = {styles.itemStyle}
           onPress = {() => this.props.navigation.navigate('Settings' , {name : 'Settings'})}>
             <View style = {styles.itemView}>
-                <Image source = {require('../assests/setting.png')}
+                <Image source = {require('../assests/settings.png')}
                 style = {styles.itemImage}
                 />
                 <Text style = {styles.textStyle}>settings</Text>
@@ -114,9 +114,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   borderStyle :{
-    height : 1 ,
+    height : 3 ,
     marginLeft : 70 ,
-    borderTopColor : '#ababab',
+    borderTopColor : '#880000',
     marginBottom : 10,
     marginTop : 10,
     borderTopWidth : 1,
@@ -127,9 +127,9 @@ const styles = StyleSheet.create({
       marginRight : 20
   },
   textStyle :{
-    fontWeight : '200',
-    color : '#9a9a9a',
-    fontSize : 15,
+    fontWeight : '300',
+    color : '#000066',
+    fontSize : 17,
   },
   endStyle :{
     marginBottom : 20,

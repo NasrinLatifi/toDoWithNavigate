@@ -8,10 +8,10 @@ const setItemAction = (obj) => {
     }
 }
 
-const setRemoveItemAction = (idex)  => {
+const setRemoveItemAction = (id)  => {
     return{
         type : REMOVE_ITEM,
-        payload : idex
+        payload : id
     }
 }
  const setTypeAction = typeState => {
@@ -54,23 +54,63 @@ export const setSearchItem = text => {
   return setSearchAction (text);
 };
 
-export const  setItem = () => {
-    return setItemAction({"text": "txt", "type": "Work"});
-} ;
 
-export const  setRemoveItem = index => {
-    return setRemoveItemAction(index);
-} ;
+export const setItem = (text , type ) => {
+  var date = Date.now();
+  return dispatch => {
+      let data = {
+          "text": text,
+          "type": type,
+          "date" : date
+      };
+      fetch(`http://10.0.2.2:3000/tasks`,
+          {
+              method: 'POST',
+              headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(data)
+          }
+      )
+          .then(response => response.json())
+          .then(getData => {
+              dispatch(setItemAction(getData))
+          })
+          .catch(error => error)
+  }
+};
+
+
+// export const  setItem = () => {
+//     return setItemAction({"text": "txt", "type": "Work"});
+// } ;
+
+
+
+// delete item
+export const setRemoveItem = (id ) => {
+  return dispatch => {
+      const url = "http://10.0.2.2:3000/tasks/";
+         fetch(`${url}${id}` ,{
+             method: 'DELETE'
+         }
+      )
+          .then(response => response.json())
+          .then(data => {
+              dispatch(setRemoveItemAction(id));
+          })
+  }
+};
 
 export const setType = type =>{
   return setTypeAction (type)
 }
 
 
+// get items
 export const fetchProducts = () => {
-    
     return dispatch => {
-         
       dispatch(fetchProductsBegin());
       fetch("http://10.0.2.2:3000/tasks")
         .then(data =>  data.json())

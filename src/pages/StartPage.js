@@ -5,7 +5,6 @@ import StartPage from '../components/Main'
 import{connect} from 'react-redux'
 import{fetchProducts } from '../service/action'
 
-
 const MyDrawerNavigator = createDrawerNavigator(
 
   { 
@@ -33,6 +32,7 @@ const MyDrawerNavigator = createDrawerNavigator(
     Settings: {
       screen: StartPage,
     },
+    
   },
   {
     drawerPosition : 'left',

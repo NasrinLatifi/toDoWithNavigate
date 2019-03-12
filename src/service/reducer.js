@@ -17,7 +17,7 @@ function reducer(state = initialState, action) {
             return {
                 ...state,
                 items : [...state.items , action.payload],
-                selectedItem : [...state.items , action.payload]
+                selectedItem : [...state.selectedItem , action.payload]
             };
         
         case SET_TYPE:
@@ -37,15 +37,17 @@ function reducer(state = initialState, action) {
                 selectedItem : [...filteredData]
             };
         case REMOVE_ITEM:
+            const index = state.items.findIndex(({ id }) => id == action.payload );
+            const indexSelected = state.selectedItem.findIndex(({ id }) => id == action.payload );
             return {
                 ...state,
                 items : [
-                    ...state.items.slice(0,action.payload),
-                    ...state.items.slice(action.payload + 1 )
+                    ...state.items.slice(0,index),
+                    ...state.items.slice(index + 1 )
                 ],
                 selectedItem : [
-                    ...state.items.slice(0,action.payload),
-                    ...state.items.slice(action.payload + 1 )
+                    ...state.selectedItem.slice(0,indexSelected),
+                    ...state.selectedItem.slice(indexSelected + 1 )
                 ]
             };
         case FETCH_PRODUCTS_BEGIN:

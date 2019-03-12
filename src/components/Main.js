@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import {Text, StyleSheet, Image, TouchableOpacity , View , FlatList , Animated , TextInput}  from 'react-native';
-import{connect} from 'react-redux'
-import{ setSearchItem , setType , setRemoveItem , setItem} from '../service/action'
-import { createAppContainer , createStackNavigator } from 'react-navigation';
-class StartPage extends Component {
+import{connect} from 'react-redux';
+import{ setSearchItem , setType , setRemoveItem , setItem} from '../service/action';
+
+
+class Main extends Component {
 
   constructor (props) {
     super(props)
@@ -140,28 +141,29 @@ settingSearch (){
                                 <Text style = {styles.textStyle} >Edit</Text>
                               </TouchableOpacity>
                               <TouchableOpacity 
-                              onPress ={() => this.props.setRemoveItem(index)}
+                              onPress ={() => this.props.navigation.navigate("Add" ,{"type" : name})}
                               style = {styles.deleteStyle}>
                                 <Text style = {styles.textStyle}>Delete</Text>
                               </TouchableOpacity>
                             </View>
                         </View>
                         }   />
-                   <TouchableOpacity 
-                   onPress = {() => this.props.setItem()}
-                  style = {styles.addStyle}>
-                    <Image 
-                    style = {styles.addImageStyle}
-                    source = {require('../assests/plus.png')}/>
-                  </TouchableOpacity>
-                </View>
+                      <TouchableOpacity 
+                      style = {styles.addStyle}
+                        onPress = {() => this.props.setItem("text" , name )}
+                        style = {styles.addStyle}>
+                          <Image 
+                          style = {styles.addImageStyle}
+                          source = {require('../assests/plus.png')}/>
+                        </TouchableOpacity>
+                      
+                  </View>
                 }
-
-               
             </View>
         )
     }
 }
+
 
 
 const mapStateToProps=(state)=>{
@@ -171,7 +173,7 @@ const mapStateToProps=(state)=>{
   }
 }
 
-export default connect(mapStateToProps ,{setSearchItem , setType , setRemoveItem , setItem})(StartPage)
+export default connect(mapStateToProps ,{setSearchItem , setType , setRemoveItem , setItem})(Main)
 
 
 const styles = StyleSheet.create({
@@ -186,10 +188,10 @@ const styles = StyleSheet.create({
       alignItems : 'center',
       justifyContent : 'center',
       position : 'absolute',
-      left:25,
-      bottom:20,
-      zIndex:1
-    },
+      left:15,
+      bottom:40,
+      zIndex : 1
+    }, 
     addImageStyle : {
       width : 60,
       height :60,
@@ -210,7 +212,8 @@ const styles = StyleSheet.create({
     headerStyle :{
         flexDirection: 'row', 
         backgroundColor: '#000066',
-        flex : 1,
+        // flex : 1,
+        height : 60,
         alignItems: 'center',
     },
     bodyStyle : {

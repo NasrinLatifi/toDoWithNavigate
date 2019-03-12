@@ -4,7 +4,6 @@ import {Provider}  from 'react-redux'
 import Start from './StartPage';
 import reducer from '../service/reducer'
 import thunk from "redux-thunk";
-import { createAppContainer , createDrawerNavigator } from 'react-navigation';
 
 const store = createStore(
     reducer,
