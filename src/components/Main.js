@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import {Text, StyleSheet, Image, TouchableOpacity , View , FlatList , Animated , TextInput}  from 'react-native';
+import {Text, StyleSheet, Image, TouchableOpacity , Alert , View , FlatList , Animated , TextInput}  from 'react-native';
 import{connect} from 'react-redux';
 import{ setSearchItem , setType , setRemoveItem , setItem} from '../service/action';
+
 
 
 class Main extends Component {
@@ -12,9 +13,30 @@ class Main extends Component {
       spinValue : new Animated.Value(0),
       search : false,
       text : '',
-      
+      color : '#303451',
     }
     
+  }
+
+
+  chooseColor(type) {
+    switch (type) {
+      case "Work":
+        return "#877C92";
+
+      case 'Family':
+        return "#B75D69";
+
+      case 'Study':
+        return "#9C7C8B";
+
+      case 'Wish':
+        return "#DAB1BD";
+      
+      default:
+        return '#AFADB2';
+
+    }
   }
 
   goBack(type) {
@@ -26,10 +48,9 @@ class Main extends Component {
   }
 
   setText(input ){
+    
     this.setState ({text : input})
-    if( input.length > 0 ){
-      this.props.setSearchItem (input)
-  }
+    this.props.setSearchItem (input)
 }
 settingSearch (){
   
@@ -39,6 +60,11 @@ settingSearch (){
   componentDidMount (){
     this.spin()
   }
+
+  showFullText (item){
+    Alert.alert( "created at :" + item.date.toString(), item.text );
+  }
+
   spin () {
     this.state.spinValue.setValue(0)
     Animated.timing(
@@ -106,7 +132,7 @@ settingSearch (){
                           </TouchableOpacity>
 
                           <TextInput 
-                          //  value = {state.text}
+                           value = {this.state.text}
                            placeholder = "Search"
                            onChangeText = {this.setText.bind(this)}
                           style = {styles.textInputStyle} />
@@ -131,21 +157,35 @@ settingSearch (){
                   
                     <FlatList
                       style = {styles.flatStyle}
-                      data = {this.props.items}
+                      data = {this.props.selectedItem}
                       keyExtractor = {item => item.id.toString()}
                       renderItem ={ ({item , index})  => 
-                        <View style = {styles.itemContainer}>
-                            <Text style = {styles.textBody} >{item.text}</Text>
-                            <View style = {styles.bottomContainer}>
-                              <TouchableOpacity style = {styles.editStyle}>
-                                <Text style = {styles.textStyle} >Edit</Text>
+                        <View style = {[styles.itemContainer , { borderLeftColor : this.chooseColor(item.type) , borderBottomColor : this.chooseColor(item.type)}]}>
+
+                          
+                          <TouchableOpacity style = {styles.textBodyContainer}
+                          onPress = {() => this.showFullText(item)}>
+
+                            <View style = {[styles.roundStyle , { backgroundColor : this.chooseColor(item.type)}]} />
+                            <Text style = {styles.textBody} >{item.text.slice(0,25)}{item.text.length>25 && "..." }</Text>
+                          </TouchableOpacity>  
+                          
+
+                          <View style = {styles.bottomContainer}>
+                              <TouchableOpacity style = {[styles.buttonTempStyle , {borderColor : this.chooseColor(item.type) }]}>
+                                <Image source = {require('../assests/edit.png')}
+                                style = {styles.imageButtonStyle}/>
                               </TouchableOpacity>
-                              <TouchableOpacity 
-                              onPress ={() => this.props.setRemoveItem(item.id)}
-                              style = {styles.deleteStyle}>
-                                <Text style = {styles.textStyle}>Delete</Text>
-                              </TouchableOpacity>
-                            </View>
+                              <View style = {[styles.buttonTempStyle , {borderColor : this.chooseColor(item.type) }] }>
+                                <TouchableOpacity 
+                                onPress ={() => this.props.setRemoveItem(item.id)}>
+                                  <Image source = {require('../assests/delete-button.png')}
+                                  style = {styles.imageButtonStyle}/>
+                                </TouchableOpacity>
+                              </View>
+                          
+                          </View>
+
                         </View>
                         }   />
                       <TouchableOpacity 
@@ -168,7 +208,7 @@ settingSearch (){
 
 const mapStateToProps=(state)=>{
   return{
-      items : state.selectedItem,
+    selectedItem : state.selectedItem,
       loading : state.loading
   }
 }
@@ -179,6 +219,7 @@ export default connect(mapStateToProps ,{setSearchItem , setType , setRemoveItem
 const styles = StyleSheet.create({
     container: {
       flex: 1,
+      backgroundColor : '#E8EAED',  
     },
     addStyle : {
       backgroundColor:'white',
@@ -188,7 +229,7 @@ const styles = StyleSheet.create({
       alignItems : 'center',
       justifyContent : 'center',
       position : 'absolute',
-      left:15,
+      right:15,
       bottom:40,
       zIndex : 1
     }, 
@@ -199,6 +240,7 @@ const styles = StyleSheet.create({
     },
     flatStyle : {
       alignContent  : 'center',
+      marginTop : 10,
       zIndex:-1
     },
     searchStyle : {
@@ -211,7 +253,7 @@ const styles = StyleSheet.create({
     },
     headerStyle :{
         flexDirection: 'row', 
-        backgroundColor: '#000066',
+        backgroundColor: '#303451',
         // flex : 1,
         height : 60,
         alignItems: 'center',
@@ -248,60 +290,72 @@ const styles = StyleSheet.create({
       alignItems : 'center',
       justifyContent : 'center',
     },
-    itemContainer :{
-      alignItems : 'center',
-      justifyContent : 'space-between',
-      flexDirection : 'row',
-      borderRadius : 25 ,
-      height : 90,
-      backgroundColor : '#e6f2ff',
-      marginTop : 10,
-      marginBottom : 10,
-      marginLeft : 25,
-      marginRight : 25,
-      elevation : 6
-    },
+
     loadingImage :{
       height : 100,
       width : 100,
     },
-    textBody : {
+
+    itemContainer :{
+      borderRadius : 10 ,
+      height : 120,
+      backgroundColor : '#F9F9F8',
+      marginTop : 10,
+      marginBottom : 10,
       marginLeft : 25,
+      marginRight : 25,
+      borderLeftWidth : 10 ,
+      borderBottomWidth : 3,
+      elevation :3,
+
+    },
+   
+    bottomContainer :{
+      flexDirection: 'row', 
+        flex : 1,
+        marginRight : 15,
+        marginLeft : 15,
+        marginBottom : 10,
+        alignItems : 'center',
+        justifyContent : 'center',
+      
+    },
+    imageButtonStyle : {
+      width : 20,
+      height : 20,
+    },
+   
+    textBodyContainer : {
+      flexDirection: 'row', 
+      flex :3,
+      marginLeft : 25,
+      marginRight : 10,
+      marginBottom : 15,
+      alignItems : 'center',
+    },
+    roundStyle :{
+      width :10,
+      height :10,
+      marginRight : 5,
+      borderRadius : 50, 
+    },
+    textBody : {
       fontSize : 23,
       fontWeight : '300',
-      textShadowColor: 'rgba(0, 35, 77, 0.1)',
-      textShadowOffset: {width: -3, height: 5},
-      textShadowRadius: 4
+      color : '#606060'
     },
-    bottomContainer :{
-        marginRight : 20,
-        alignItems : 'center',
-        justifyContent : 'space-between',
-        height : 65,
-        width :70,
-    },
-    textStyle : {
-      fontSize : 17,
-      fontWeight : '200',
-      color : 'white'
-    },
-    editStyle :{
+    buttonTempStyle :{
       width : 60,
-      height : 30,
-      backgroundColor : '#003577',
+      height : 35,
       alignItems : 'center',
       justifyContent : 'center',
-      borderRadius : 25 ,
-    
-      
-    },
-    deleteStyle :{
-      width : 60,
-      height : 30,
-      backgroundColor : '#aa0000',
-      alignItems : 'center',
-      justifyContent : 'center',
-      borderRadius : 25 ,
-      
+      borderWidth : 3 , 
+      borderRadius : 10,
+      marginRight : 10,
+      marginLeft : 10,
+      marginBottom : 10,
+      backgroundColor : '#E8EAED',
+
     }
+    
 })

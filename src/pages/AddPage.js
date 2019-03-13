@@ -2,12 +2,37 @@ import React, {Component} from 'react';
 import {Text, StyleSheet, Image, TouchableOpacity , View , TextInput}  from 'react-native';
 import{connect} from 'react-redux'
 import{ setItem} from '../service/action'
+
  class AddPage extends Component{
     constructor (props) {
         super(props)
         this.state = {
           text : '',
+         
         } 
+      }
+
+     
+
+
+      chooseColor(type) {
+        switch (type) {
+          case "Work":
+            return "#877C92";
+    
+          case 'Family':
+            return "#B75D69";
+    
+          case 'Study':
+            return "#9C7C8B";
+    
+          case 'Wish':
+            return "#DAB1BD";
+          
+          default:
+            return '#AFADB2';
+    
+        }
       }
 
     setText(input ){
@@ -16,20 +41,31 @@ import{ setItem} from '../service/action'
             this.setState ({text : input})
       }
     }
+    onPressBack (type) {
+      this.setState ({text : ''})
+      this.props.navigation.navigate(type , {name : type})
+    }
+    pressButton (navigation, type) {
+      if( this.state.text.length > 0 ){
+
+        this.props.setItem(this.state.text , type)
+        this.setState ({text : ''})
+        navigation.navigate(type , {name : type})
+    }
+    }
    
     render(){
         const { navigation } = this.props;
         const type = navigation.getParam('type', 'All');
         return(
+
             <View style = {styles.container}>
-                <View style = {[styles.headerStyle , {justifyContent : 'space-between'}]}>
+              <View style = {[styles.headerStyle , {justifyContent : 'space-between'}]}>
             
                     <View style = {styles.headerStyle}>
                         <TouchableOpacity 
                           style = {styles.drawerBotton}
-                           onPress={() => {
-                            this.props.navigation.navigate(type , {name : type})
-                             }}
+                           onPress={this.onPressBack.bind(this, type)}
                           >
                               <Image source = {require('../assests/back.png')}
                               style = {styles.imageStyle} />
@@ -50,29 +86,24 @@ import{ setItem} from '../service/action'
 
                 <View  style= {styles.inputContainer}>
                     <TextInput
+                     value = {this.state.text}
                      placeholder = "Write your Task =)"
-                     style = {styles.textInputStyle}
+                     style = {[styles.textInputStyle , {borderColor : this.chooseColor(type)}]}
                      onChangeText = {this.setText.bind(this )}>
                     </TextInput>
 
                 </View>
 
-                <View style = {styles.buttonContainer}>
+                {/* <View style = {styles.buttonContainer}> */}
                 <TouchableOpacity 
                       style = {styles.addStyle}
-                      onPress ={ () => {
-                            if( this.state.text.length > 0 ){
-                                this.props.setItem(this.state.text , type)
-                                this.props.navigation.navigate(type , {name : type})
-                            }
-                            }
-                        }
+                      onPress ={this.pressButton.bind(this,navigation,type) }
                         style = {styles.addStyle}>
                           <Image 
                           style = {styles.addImageStyle}
                           source = {require('../assests/done.png')}/>
                 </TouchableOpacity>
-                </View>
+                {/* </View> */}
 
             </View>
         )
@@ -84,21 +115,24 @@ export default connect(null ,{ setItem})(AddPage)
 const styles = StyleSheet.create({
     container : {
         flex : 1,
-        backgroundColor : 'white',
+        backgroundColor : '#E8EAED',  
     },
     addStyle : {
-        backgroundColor:'#000066',
+        backgroundColor:'#771327',
         width : 60,
         height :60,
         borderRadius : 50,
         alignItems : 'center',
         justifyContent : 'center',
-        // position : 'absolute',
+        position : 'absolute',
+        right:15,
+        bottom:40,
         zIndex : 1
       }, 
       buttonContainer : {
-        marginTop : 10,
-        alignItems : 'center',
+        marginTop : 25,
+        alignItems : 'flex-end',
+        marginRight : 10,
         justifyContent : 'center',
       },
 
@@ -115,10 +149,12 @@ const styles = StyleSheet.create({
       },
 
       textInputStyle :{
-          height : 300,
-          backgroundColor : "#e6f2ff",
+          height : 100,
+          fontSize: 20,
           margin : 40,
-          borderRadius : 20,
+          borderRadius : 10,
+          backgroundColor : 'white',
+          borderWidth : 5,
       },
     searchStyle : {
         width : 38,
@@ -143,7 +179,7 @@ const styles = StyleSheet.create({
       },
       headerStyle :{
           flexDirection: 'row', 
-          backgroundColor: '#000066',
+          backgroundColor: '#303451',
           // flex : 1,
           height : 60,
           alignItems: 'center',

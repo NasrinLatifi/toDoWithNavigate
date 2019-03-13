@@ -42,7 +42,7 @@ class DrawerScreen extends Component {
           <TouchableHighlight style = {styles.itemStyle}
           onPress = {() => this.props.navigation.navigate('Edit' , {name : 'Edit'} )}>
             <View style = {styles.itemView}>
-                <Image source = {require('../assests/edit.png')}
+                <Image source = {require('../assests/writing.png')}
                 style = {styles.itemImage}
                 />
                 <Text style = {styles.textStyle}>Edit Task List</Text>
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
       flex: 1,
     //   justifyContent: 'center',
     //   alignItems: 'center',
-    //   backgroundColor: '#fff',
+      backgroundColor: '#EDEFF2',
   },
 
   headerContainer :{
@@ -98,7 +98,8 @@ const styles = StyleSheet.create({
   },
   emailStyle : {
     marginLeft : 10,
-    color : 'white',
+    fontWeight : '500',
+    color : '#F9F9F8',
     fontSize : 18,
   },
   itemStyle :{
@@ -115,21 +116,21 @@ const styles = StyleSheet.create({
   },
   borderStyle :{
     height : 3 ,
-    marginLeft : 70 ,
-    borderTopColor : '#880000',
+    marginLeft : 80 ,
+    borderTopColor : '#771327',
     marginBottom : 10,
     marginTop : 10,
     borderTopWidth : 1,
   },
   itemImage : {
-      width : 25,
-      height : 25,
+      width : 32,
+      height : 32,
       marginRight : 20
   },
   textStyle :{
-    fontWeight : '300',
-    color : '#000066',
-    fontSize : 17,
+    fontWeight : '400',
+    color : '#303451',
+    fontSize : 19,
   },
   endStyle :{
     marginBottom : 20,

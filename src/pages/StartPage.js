@@ -1,37 +1,38 @@
 import React, {Component} from 'react';
 import { createAppContainer , createDrawerNavigator } from 'react-navigation';
 import DrawerScreen from '../components/DrawerScreen'
-import StartPage from '../components/Main'
+import Main from '../components/Main'
 import{connect} from 'react-redux'
 import{fetchProducts } from '../service/action'
 import AddPage from './AddPage'
+
 
 const MyDrawerNavigator = createDrawerNavigator(
 
   { 
     All: {
-      screen: StartPage, 
+      screen: Main, 
     },
     Work: {
-      screen: StartPage,
+      screen: Main,
     },
     Family: {
-      screen: StartPage,
+      screen: Main,
     },
     Study: {
-      screen: StartPage,
+      screen: Main,
     },
     Wish: {
-      screen: StartPage,
+      screen: Main,
     },
     Calendar: {
-      screen: StartPage,
+      screen: Main,
     },
     Edit: {
-      screen: StartPage,
+      screen: Main,
     },
     Settings: {
-      screen: StartPage,
+      screen: Main,
     },
     Add: {
       screen: AddPage,

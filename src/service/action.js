@@ -1,4 +1,4 @@
-import { SEARCH_ITEM , SET_TYPE , SET_ITEM , REMOVE_ITEM , FETCH_PRODUCTS_BEGIN , FETCH_PRODUCTS_SUCCESS , FETCH_PRODUCTS_FAILURE} from "./type";
+import {CHECK_LOGIN , FETCH_USERS_BEGIN ,FETCH_USERS_SUCCESS , FETCH_USERS_FAILURE, SEARCH_ITEM , SET_TYPE , SET_ITEM , REMOVE_ITEM , FETCH_PRODUCTS_BEGIN , FETCH_PRODUCTS_SUCCESS , FETCH_PRODUCTS_FAILURE} from "./type";
 
 
 const setItemAction = (obj) => {
@@ -21,10 +21,12 @@ const setRemoveItemAction = (id)  => {
      payload : typeState
    }
  }
+
  const fetchProductsBegin = () => ({
     type: FETCH_PRODUCTS_BEGIN
   });
 
+ 
   const fetchProductsSuccess = (products) => {
       return {
         type: FETCH_PRODUCTS_SUCCESS,
@@ -35,8 +37,9 @@ const setRemoveItemAction = (id)  => {
  
    const fetchProductsFailure = error => ({
     type: FETCH_PRODUCTS_FAILURE,
-    payload:  error 
-  });
+    payload:  error
+  
+  })
 
   const setSearchAction = (text) => {
     return{
@@ -47,21 +50,44 @@ const setRemoveItemAction = (id)  => {
 }
 
 
+const fetchUsersSuccess = (users) => {
+  return {
+    type: FETCH_USERS_SUCCESS,
+    payload:  users 
+  }
+}
+
+
+const fetchUsersFailure = error => ({
+type: FETCH_USERS_FAILURE,
+payload:  error 
+});
+
+const fetchUsersBegin = () => ({
+type: FETCH_USERS_BEGIN
+});
+
+const checkLoginAction = (obj) => ({
+  type: CHECK_LOGIN,
+  payload:  obj 
+})
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const setSearchItem = text => {
-
+  
   return setSearchAction (text);
 };
 
 
+
 export const setItem = (text , type ) => {
-  var date = Date.now();
+  let now = Date.now();
   return dispatch => {
       let data = {
           "text": text,
           "type": type,
-          "date" : date
+          "date" : now
       };
       fetch(`http://10.0.2.2:3000/tasks`,
           {
@@ -120,3 +146,20 @@ export const fetchProducts = () => {
         .catch(error => dispatch(fetchProductsFailure(error)));
     };
   }
+
+  export const fetchUsers = () => {
+    return dispatch => {
+      dispatch(fetchUsersBegin());
+      fetch("http://10.0.2.2:4000/users")
+        .then(data =>  data.json())
+        .then(data => {
+          dispatch(fetchUsersSuccess(data));
+        })
+        .catch(error => dispatch(fetchUsersFailure(error)));
+    };
+  }
+
+
+export const checkLogin = (obj) =>{
+  return checkLoginAction (obj);
+}
