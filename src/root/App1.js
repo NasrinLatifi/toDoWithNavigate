@@ -15,7 +15,7 @@ const store = createStore(
     render(){
         return(
             <Provider  store={store}>
-                <Start />
+                <Start/>
             </Provider>
         )
     }

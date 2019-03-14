@@ -83,7 +83,7 @@ settingSearch (){
     
     return{
         // title: navigation.getParam('name', 'NO-ID'),
-        title : params ?  params.name : 'All Alaki' ,
+        title :  'All' ,
         headerStyle: {
             backgroundColor: '#ffffe6',
           },
@@ -176,7 +176,7 @@ settingSearch (){
                   
                     <FlatList
                       style = {styles.flatStyle}
-                      data = {this.props.selectedItem}
+                      data = {this.props.items}
                       keyExtractor = {item => item.id.toString()}
                       renderItem ={ ({item , index})  => 
                         <View style = {[styles.itemContainer , { borderLeftColor : this.chooseColor(item.type) , borderBottomColor : this.chooseColor(item.type)}]}>

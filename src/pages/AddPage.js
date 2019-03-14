@@ -12,9 +12,6 @@ import{ setItem} from '../service/action'
         } 
       }
 
-     
-
-
       chooseColor(type) {
         switch (type) {
           case "Work":
@@ -44,6 +41,21 @@ import{ setItem} from '../service/action'
       this.setState ({text : ''})
       this.props.navigation.navigate(type , {name : type})
     }
+    static navigationOptions = ({ navigation }) => {
+      const { params } = navigation.state;
+      
+      return{
+          // title: navigation.getParam('name', 'NO-ID'),
+          title : params ?  params.name : 'A Nested Details Screen' ,
+          headerStyle: {
+              backgroundColor: '#ffffe6',
+            },
+            headerTintColor: '#999999',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+      }; 
+  }
 
     
     pressButton (navigation, type) {
@@ -57,7 +69,8 @@ import{ setItem} from '../service/action'
    
     render(){
         const { navigation } = this.props;
-        const type = navigation.getParam('type', 'All');
+        const type = navigation.getParam('name', 'All');
+      
         return(
 
             <View style = {styles.container}>

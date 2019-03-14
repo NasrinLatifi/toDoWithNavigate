@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { createAppContainer , createDrawerNavigator } from 'react-navigation';
 import DrawerScreen from '../components/DrawerScreen'
-import Main from '../components/Main'
+import Main from '../root/MainPages'
 import{connect} from 'react-redux'
 import{fetchProducts } from '../service/action'
 import AddPage from './AddPage'
@@ -34,9 +34,9 @@ const MyDrawerNavigator = createDrawerNavigator(
     Settings: {
       screen: Main,
     },
-    Add: {
-      screen: AddPage,
-    },
+    // Add: {
+    //   screen: AddPage,
+    // },
     
   },
   {
@@ -55,8 +55,10 @@ const MyDrawerNavigator = createDrawerNavigator(
       iconContainerStyle: {
         opacity: 1
       }
-    }
+    },
+    
   },
+ 
   );
   
 

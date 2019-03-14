@@ -35,6 +35,7 @@ function reducer(state = initialState, action) {
             }
             return {
                 ...state,
+                type : action.payload,
                 selectedItem : [...filteredData]
             };
         case REMOVE_ITEM:
