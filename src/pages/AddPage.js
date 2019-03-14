@@ -37,14 +37,15 @@ import{ setItem} from '../service/action'
 
     setText(input ){
         
-        if( input.length > 0 ){
-            this.setState ({text : input})
-      }
+         this.setState ({text : input})
+      
     }
     onPressBack (type) {
       this.setState ({text : ''})
       this.props.navigation.navigate(type , {name : type})
     }
+
+    
     pressButton (navigation, type) {
       if( this.state.text.length > 0 ){
 

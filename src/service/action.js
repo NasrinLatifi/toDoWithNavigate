@@ -82,12 +82,12 @@ export const setSearchItem = text => {
 
 
 export const setItem = (text , type ) => {
-  let now = Date.now();
+  let now =new Date();
   return dispatch => {
       let data = {
           "text": text,
           "type": type,
-          "date" : now
+          "date" : now.toLocaleDateString()+" "+now.toLocaleTimeString()
       };
       fetch(`http://10.0.2.2:3000/tasks`,
           {
