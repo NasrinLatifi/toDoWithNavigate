@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Text, StyleSheet, Image, TouchableOpacity , View , TextInput}  from 'react-native';
 import{connect} from 'react-redux'
-import{ setItem} from '../service/action'
+import{ setItem , setType} from '../service/action'
 
  class AddPage extends Component{
     constructor (props) {
@@ -37,67 +37,53 @@ import{ setItem} from '../service/action'
          this.setState ({text : input})
       
     }
-    onPressBack (type) {
-      this.setState ({text : ''})
-      this.props.navigation.navigate(type , {name : type})
-    }
     static navigationOptions = ({ navigation }) => {
       const { params } = navigation.state;
       
       return{
           // title: navigation.getParam('name', 'NO-ID'),
-          title : params ?  params.name : 'A Nested Details Screen' ,
+          title : params ?  params.name? params.name : 'ALL' : 'All Alaki' ,
           headerStyle: {
-              backgroundColor: '#ffffe6',
-            },
-            headerTintColor: '#999999',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
+            backgroundColor: '#303451',
+          },
+  
+          headerTintColor: 'white',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+          
+          headerRight : (
+            <TouchableOpacity 
+                        style = {styles.drawerBottonRight}>
+                            <Image 
+                            style = {styles.threeStyle}
+                            source = {require('../assests/3.png')}/>
+                        </TouchableOpacity>
+          ),
+ 
+  
       }; 
   }
+    
 
     
     pressButton (navigation, type) {
+   
       if( this.state.text.length > 0 ){
 
         this.props.setItem(this.state.text , type)
+        this.props.setType(type)
         this.setState ({text : ''})
-        navigation.navigate(type , {name : type})
+        navigation.goBack()
     }
     }
    
     render(){
         const { navigation } = this.props;
         const type = navigation.getParam('name', 'All');
-      
         return(
 
             <View style = {styles.container}>
-              <View style = {[styles.headerStyle , {justifyContent : 'space-between'}]}>
-            
-                    <View style = {styles.headerStyle}>
-                        <TouchableOpacity 
-                          style = {styles.drawerBotton}
-                           onPress={this.onPressBack.bind(this, type)}
-                          >
-                              <Image source = {require('../assests/back.png')}
-                              style = {styles.imageStyle} />
-                          </TouchableOpacity>
-                        <Text style = {styles.headerText}>{type}</Text>
-                    </View>
-
-                    <View style = {[styles.headerStyle , {justifyContent : 'flex-end'}]}>
-            
-                        <TouchableOpacity 
-                        style = {styles.drawerBottonRight}>
-                            <Image 
-                            style = {styles.threeStyle}
-                            source = {require('../assests/3.png')}/>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-
                 <View  style= {styles.inputContainer}>
                     <TextInput
                      value = {this.state.text}
@@ -124,7 +110,7 @@ import{ setItem} from '../service/action'
     }
 }
 
-export default connect(null ,{ setItem})(AddPage)
+export default connect(null ,{ setItem , setType})(AddPage)
 
 const styles = StyleSheet.create({
     container : {

@@ -13,6 +13,7 @@ class Main extends Component {
       search : false,
       text : '',
       color : '#303451',
+      name : 'Alaki',
     }
     
   }
@@ -60,6 +61,8 @@ settingSearch (){
 }
 
   componentDidMount (){
+    const name = this.props.type;
+    this.props.navigation.setParams({name});
     this.spin()
   }
 
@@ -78,19 +81,55 @@ settingSearch (){
     ).start(() => this.spin())
 
   }
+
+  
+ 
+  // componentWillMount(){
+  //   const name = this.props.type;
+  //   console.warn(name)
+  //   this.props.navigation.setParams({name});
+  // }
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
     
     return{
-        // title: navigation.getParam('name', 'NO-ID'),
-        title : params ?  params.name : 'All Alaki' ,
+        title : params ?  params.name? params.name : 'ALL' : 'All Alaki' ,
         headerStyle: {
-            backgroundColor: '#ffffe6',
-          },
-          headerTintColor: '#999999',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
+          backgroundColor: '#303451',
+        },
+
+        headerTintColor: 'white',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+
+        headerRight: (
+          <View style = {[styles.headerStyle , {justifyContent : 'flex-end'}]}>
+            <TouchableOpacity 
+            // onPress = {this.settingSearch.bind(this)}
+            style = {styles.drawerBottonRight}>
+              <Image 
+                style = {styles.searchStyle}
+                source = {require('../assests/search.png')}/>
+            </TouchableOpacity>
+
+            <TouchableOpacity 
+            style = {styles.drawerBottonRight}>
+                <Image 
+                style = {styles.threeStyle}
+                source = {require('../assests/3.png')}/>
+            </TouchableOpacity>
+         </View>
+         
+        ),
+        headerLeft :(
+          <TouchableOpacity 
+          style = {styles.drawerBotton}
+          onPress={() =>navigation.toggleDrawer()}>
+              <Image source = {require('../assests/menu1.png')}/>
+          </TouchableOpacity>
+        ),
+
     }; 
 }
   
@@ -103,42 +142,6 @@ settingSearch (){
         })
         return(
             <View style = {styles.container}>
-            
-                {/* {
-                  !this.state.search && 
-
-                    <View style = {[styles.headerStyle , {justifyContent : 'space-between'}]}>
-                    
-                      <View style = {styles.headerStyle}>
-                          <TouchableOpacity 
-                          style = {styles.drawerBotton}
-                          onPress={() =>navigation.toggleDrawer()}>
-                              <Image source = {require('../assests/menu1.png')}/>
-                          </TouchableOpacity>
-                          <Text style = {styles.headerText}>{name}</Text>
-                      </View>
-
-                      <View style = {[styles.headerStyle , {justifyContent : 'flex-end'}]}>
-                          <TouchableOpacity 
-                          onPress = {this.settingSearch.bind(this)}
-                          style = {styles.drawerBottonRight}>
-                            <Image 
-                              style = {styles.searchStyle}
-                              source = {require('../assests/search.png')}/>
-                          </TouchableOpacity>
-
-                          <TouchableOpacity 
-                          style = {styles.drawerBottonRight}>
-                              <Image 
-                              style = {styles.threeStyle}
-                              source = {require('../assests/3.png')}/>
-                          </TouchableOpacity>
-                      </View>
-
-                      
-                  </View>
-                } */}
-
                 {/* {
                   this.state.search && 
                     <View style = {[styles.headerStyle , {justifyContent : 'space-between'}]}>
@@ -228,7 +231,6 @@ const mapStateToProps=(state)=>{
     selectedItem : state.selectedItem,
     loading : state.loading,
     type : state.type,
-    items : state.items
   }
 }
 
@@ -272,9 +274,6 @@ const styles = StyleSheet.create({
     },
     headerStyle :{
         flexDirection: 'row', 
-        backgroundColor: '#303451',
-        // flex : 1,
-        height : 60,
         alignItems: 'center',
     },
     bodyStyle : {
