@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { createStore , applyMiddleware  } from 'redux'
 import {Provider}  from 'react-redux'
-import Start from '../pages/StartPage';
+import Start from './StartPage';
 import reducer from '../service/reducer'
 import thunk from "redux-thunk";
 

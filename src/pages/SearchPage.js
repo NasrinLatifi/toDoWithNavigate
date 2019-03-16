@@ -1,17 +1,14 @@
 import React, {Component} from 'react';
-import {Text, StyleSheet, Image, TouchableOpacity , Alert , View , FlatList , Animated , TextInput}  from 'react-native';
+import {Text, StyleSheet, Image, TouchableOpacity ,  View , FlatList ,TextInput}  from 'react-native';
 import{connect} from 'react-redux';
 import{ setSearchItem , setType , setRemoveItem , setItem} from '../service/action';
-
+import SearchBar from '../components/SearchBar'
 
 class Main extends Component {
   
   constructor (props) {
     super(props)
     this.state = {
-      spinValue : new Animated.Value(0),
-      search : false,
-      text : '',
       color : '#303451',
     }
     
@@ -39,147 +36,42 @@ class Main extends Component {
     }
   }
 
-  goBack(type) {
-    this.props.setType (type),
-      this.setState ({
-        text : '',
-        search : false,
-      })
-  }
 
-  setText(input ){
-    
-    this.setState ({text : input})
-    this.props.setSearchItem (input)
-}
-
-
-settingSearch (){
-  
-  this.setState ({search : true})
-}
-
-  componentDidMount (){
-    this.spin()
-  }
-
-  showFullText (item){
-    Alert.alert( "created at :" + item.date.toString(), item.text );
-  }
-
-  spin () {
-    this.state.spinValue.setValue(0)
-    Animated.timing(
-      this.state.spinValue,
-      {
-        toValue: 1,
-        duration: 1000,
-      }
-    ).start(() => this.spin())
-
-  }
   static navigationOptions = ({ navigation }) => {
-    const { params } = navigation.state;
-    
     return{
-        // title: navigation.getParam('name', 'NO-ID'),
-        title :  'All' ,
         headerStyle: {
-            backgroundColor: '#ffffe6',
-          },
-          headerTintColor: '#999999',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
+          backgroundColor: '#303451',
+        },
+
+        headerTintColor: 'white',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+
+        headerRight: (
+         
+         <SearchBar/>
+        ),
+    
     }; 
 }
   
   
 
     render(){
-        const spin = this.state.spinValue.interpolate({
-            inputRange: [0, 1],
-            outputRange: ['0deg', '360deg']
-        })
+        
         return(
             <View style = {styles.container}>
-            
-                {/* {
-                  !this.state.search && 
-
-                    <View style = {[styles.headerStyle , {justifyContent : 'space-between'}]}>
-                    
-                      <View style = {styles.headerStyle}>
-                          <TouchableOpacity 
-                          style = {styles.drawerBotton}
-                          onPress={() =>navigation.toggleDrawer()}>
-                              <Image source = {require('../assests/menu1.png')}/>
-                          </TouchableOpacity>
-                          <Text style = {styles.headerText}>{name}</Text>
-                      </View>
-
-                      <View style = {[styles.headerStyle , {justifyContent : 'flex-end'}]}>
-                          <TouchableOpacity 
-                          onPress = {this.settingSearch.bind(this)}
-                          style = {styles.drawerBottonRight}>
-                            <Image 
-                              style = {styles.searchStyle}
-                              source = {require('../assests/search.png')}/>
-                          </TouchableOpacity>
-
-                          <TouchableOpacity 
-                          style = {styles.drawerBottonRight}>
-                              <Image 
-                              style = {styles.threeStyle}
-                              source = {require('../assests/3.png')}/>
-                          </TouchableOpacity>
-                      </View>
-
-                      
-                  </View>
-                } */}
-
-                {/* {
-                  this.state.search && 
-                    <View style = {[styles.headerStyle , {justifyContent : 'space-between'}]}>
-                         <TouchableOpacity 
-                          style = {styles.drawerBotton}
-                          onPress={ this.goBack.bind(this , name) }>
-                              <Image source = {require('../assests/back.png')}
-                              style = {styles.imageStyle}/>
-                          </TouchableOpacity>
-
-                          <TextInput 
-                           value = {this.state.text}
-                           placeholder = "Search"
-                           onChangeText = {this.setText.bind(this)}
-                          style = {styles.textInputStyle} />
-                      
-                    </View>
-                } */}
-
-                {
-                  this.props.loading && 
-                    <View style = {styles.animatedStyle}>
-                        <Animated.Image 
-                        style = {[styles.loadingImage , {  transform: [{rotate: spin }]}]}
-                        source = {require ('../assests/loading1.png')} />
-
-                    </View>
-                }
-                {
-                  !this.props.loading &&  
-                  
-
+               
                   <View style = {styles.bodyStyle}>
                     
                   
                     <FlatList
                       style = {styles.flatStyle}
-                      data = {this.props.items}
+                      data = {this.props.selectedItem}
                       keyExtractor = {item => item.id.toString()}
                       renderItem ={ ({item , index})  => 
-                        <View style = {[styles.itemContainer , { borderLeftColor : this.chooseColor(item.type) , borderBottomColor : this.chooseColor(item.type)}]}>
+                        <View style = {[styles.itemContainer , { borderLeftColor : this.chooseColor(item.type) }]}>
 
                           
                           <TouchableOpacity style = {styles.textBodyContainer}
@@ -217,7 +109,7 @@ settingSearch (){
                         </TouchableOpacity>
                       
                   </View>
-                }
+                
             </View>
         )
     }
@@ -226,9 +118,7 @@ settingSearch (){
 const mapStateToProps=(state)=>{
   return{
     selectedItem : state.selectedItem,
-    loading : state.loading,
     type : state.type,
-    items : state.items
   }
 }
 
@@ -270,22 +160,10 @@ const styles = StyleSheet.create({
       width : 20,
       height : 20
     },
-    headerStyle :{
-        flexDirection: 'row', 
-        backgroundColor: '#303451',
-        // flex : 1,
-        height : 60,
-        alignItems: 'center',
-    },
+ 
     bodyStyle : {
         flex : 9,
         marginTop : 2
-    },
-    headerText : {
-      marginLeft : 20,
-      fontWeight: 'bold',
-      color : 'white',
-      fontSize : 25,
     },
     drawerBotton : {
       marginLeft : 15
@@ -293,26 +171,6 @@ const styles = StyleSheet.create({
     imageStyle: {
       width : 27,
       height : 27,
-    },
-    textInputStyle : {
-      backgroundColor : 'white',
-      marginRight : 15,
-      width : 300,
-      height : 40,
-      borderRadius : 20,
-    },
-    drawerBottonRight :{
-      marginRight : 15,
-    },
-    animatedStyle : {
-      flex : 9,
-      alignItems : 'center',
-      justifyContent : 'center',
-    },
-
-    loadingImage :{
-      height : 100,
-      width : 100,
     },
 
     itemContainer :{
@@ -324,7 +182,6 @@ const styles = StyleSheet.create({
       marginLeft : 25,
       marginRight : 25,
       borderLeftWidth : 10 ,
-      borderBottomWidth : 3,
       elevation :3,
 
     },
@@ -373,7 +230,7 @@ const styles = StyleSheet.create({
       marginRight : 10,
       marginLeft : 10,
       marginBottom : 10,
-      backgroundColor : '#E8EAED',
+      // backgroundColor : '#E8EAED',
 
     }
     

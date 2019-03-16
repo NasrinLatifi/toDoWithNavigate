@@ -27,7 +27,7 @@ function reducer(state = initialState, action) {
             if(!action.payload.toUpperCase().includes("ALL")){
                 filteredData = 
                 state.items.filter(item => 
-                    item.type.toUpperCase().includes(action.payload.toUpperCase())
+                    item.type.includes((action.payload))
                 );
             }
             else{
@@ -51,18 +51,6 @@ function reducer(state = initialState, action) {
                     ...state.selectedItem.slice(0,indexSelected),
                     ...state.selectedItem.slice(indexSelected + 1 )
                 ]
-            };
-
-        case CHECK_LOGIN : 
-
-            let temp = 0;
-            for (i = 0 ; i < state.usres.length ; i++ )
-            {
-                if(i.userName === action.payload.userName && i.password.toString() === action.payload.password ) {temp = 1}
-            }
-            return {
-                ...state,
-            permission : temp
             };
 
         case FETCH_PRODUCTS_BEGIN:

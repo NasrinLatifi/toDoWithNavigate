@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import { createAppContainer , createDrawerNavigator } from 'react-navigation';
 import DrawerScreen from '../components/DrawerScreen'
-import Main from '../root/MainPages'
+import Main from './MainPages'
 import{connect} from 'react-redux'
 import{fetchProducts } from '../service/action'
-import AddPage from './AddPage'
+import AddPage from '../pages/AddPage'
 
 
 const MyDrawerNavigator = createDrawerNavigator(

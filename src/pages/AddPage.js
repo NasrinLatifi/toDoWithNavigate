@@ -32,16 +32,10 @@ import{ setItem , setType} from '../service/action'
         }
       }
 
-    setText(input ){
-        
-         this.setState ({text : input})
-      
-    }
+
     static navigationOptions = ({ navigation }) => {
-      const { params } = navigation.state;
       
       return{
-          // title: navigation.getParam('name', 'NO-ID'),
           title : params ?  params.name? params.name : 'ALL' : 'All Alaki' ,
           headerStyle: {
             backgroundColor: '#303451',
@@ -54,29 +48,17 @@ import{ setItem , setType} from '../service/action'
           
           headerRight : (
             <TouchableOpacity 
-                        style = {styles.drawerBottonRight}>
-                            <Image 
-                            style = {styles.threeStyle}
-                            source = {require('../assests/3.png')}/>
-                        </TouchableOpacity>
+                style = {styles.drawerBottonRight}>
+                    <Image 
+                    style = {styles.threeStyle}
+                    source = {require('../assests/3.png')}/>
+            </TouchableOpacity>
           ),
  
   
       }; 
   }
-    
-
-    
-    pressButton (navigation, type) {
-   
-      if( this.state.text.length > 0 ){
-
-        this.props.setItem(this.state.text , type)
-        this.props.setType(type)
-        this.setState ({text : ''})
-        navigation.goBack()
-    }
-    }
+  
    
     render(){
         const { navigation } = this.props;
@@ -149,6 +131,7 @@ const styles = StyleSheet.create({
       },
 
       textInputStyle :{
+        paddingLeft :15,
           height : 100,
           fontSize: 20,
           margin : 40,

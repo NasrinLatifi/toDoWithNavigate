@@ -3,23 +3,18 @@ import {Text, StyleSheet, Image, TouchableOpacity , Alert , View , FlatList , An
 import{connect} from 'react-redux';
 import{ setSearchItem , setType , setRemoveItem , setItem} from '../service/action';
 
-
 class Main extends Component {
   
   constructor (props) {
     super(props)
     this.state = {
       spinValue : new Animated.Value(0),
-      search : false,
       text : '',
       color : '#303451',
       name : 'Alaki',
     }
-    
   }
   
-
-
   chooseColor(type) {
     switch (type) {
       case "Work":
@@ -40,29 +35,7 @@ class Main extends Component {
     }
   }
 
-  goBack(type) {
-    this.props.setType (type),
-      this.setState ({
-        text : '',
-        search : false,
-      })
-  }
-
-  setText(input ){
-    
-    this.setState ({text : input})
-    this.props.setSearchItem (input)
-}
-
-
-settingSearch (){
-  
-  this.setState ({search : true})
-}
-
   componentDidMount (){
-    const name = this.props.type;
-    this.props.navigation.setParams({name});
     this.spin()
   }
 
@@ -82,18 +55,15 @@ settingSearch (){
 
   }
 
-  
- 
-  // componentWillMount(){
-  //   const name = this.props.type;
-  //   console.warn(name)
-  //   this.props.navigation.setParams({name});
-  // }
+  componentWillMount(){
+    const name = this.props.type;
+    this.props.navigation.setParams({name});
+  }
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
     
     return{
-        title : params ?  params.name? params.name : 'ALL' : 'All Alaki' ,
+        title : params ?  (params.name? params.name : 'ALL') : '' ,
         headerStyle: {
           backgroundColor: '#303451',
         },
@@ -106,7 +76,7 @@ settingSearch (){
         headerRight: (
           <View style = {[styles.headerStyle , {justifyContent : 'flex-end'}]}>
             <TouchableOpacity 
-            // onPress = {this.settingSearch.bind(this)}
+             onPress = {() => {navigation.navigate('Search')}}
             style = {styles.drawerBottonRight}>
               <Image 
                 style = {styles.searchStyle}
@@ -132,9 +102,6 @@ settingSearch (){
 
     }; 
 }
-  
-  
-
     render(){
         const spin = this.state.spinValue.interpolate({
             inputRange: [0, 1],
@@ -142,25 +109,7 @@ settingSearch (){
         })
         return(
             <View style = {styles.container}>
-                {/* {
-                  this.state.search && 
-                    <View style = {[styles.headerStyle , {justifyContent : 'space-between'}]}>
-                         <TouchableOpacity 
-                          style = {styles.drawerBotton}
-                          onPress={ this.goBack.bind(this , name) }>
-                              <Image source = {require('../assests/back.png')}
-                              style = {styles.imageStyle}/>
-                          </TouchableOpacity>
-
-                          <TextInput 
-                           value = {this.state.text}
-                           placeholder = "Search"
-                           onChangeText = {this.setText.bind(this)}
-                          style = {styles.textInputStyle} />
-                      
-                    </View>
-                } */}
-
+             
                 {
                   this.props.loading && 
                     <View style = {styles.animatedStyle}>
@@ -172,17 +121,13 @@ settingSearch (){
                 }
                 {
                   !this.props.loading &&  
-                  
-
                   <View style = {styles.bodyStyle}>
-                    
-                  
                     <FlatList
                       style = {styles.flatStyle}
                       data = {this.props.selectedItem}
                       keyExtractor = {item => item.id.toString()}
                       renderItem ={ ({item , index})  => 
-                        <View style = {[styles.itemContainer , { borderLeftColor : this.chooseColor(item.type) , borderBottomColor : this.chooseColor(item.type)}]}>
+                        <View style = {[styles.itemContainer , { borderLeftColor : this.chooseColor(item.type) }]}>
 
                           
                           <TouchableOpacity style = {styles.textBodyContainer}
@@ -194,17 +139,20 @@ settingSearch (){
                           
 
                           <View style = {styles.bottomContainer}>
-                              <TouchableOpacity style = {[styles.buttonTempStyle , {borderColor : this.chooseColor(item.type) }]}>
-                                <Image source = {require('../assests/edit.png')}
-                                style = {styles.imageButtonStyle}/>
-                              </TouchableOpacity>
-                              <View style = {[styles.buttonTempStyle , {borderColor : this.chooseColor(item.type) }] }>
+                                <TouchableOpacity style = {styles.buttonTempStyle}>
+                                  <Image source = {require('../assests/edit.png')}
+                                  style = {styles.imageButtonStyle}/>
+                                  <Text style = {styles.iconText}>Edit</Text>
+                                </TouchableOpacity>
+                              
                                 <TouchableOpacity 
+                                style = {styles.buttonTempStyle}
                                 onPress ={() => this.props.setRemoveItem(item.id)}>
                                   <Image source = {require('../assests/delete-button.png')}
                                   style = {styles.imageButtonStyle}/>
+                                  <Text  style = {styles.iconText}>Delete</Text>
                                 </TouchableOpacity>
-                              </View>
+                              
                           
                           </View>
 
@@ -300,6 +248,11 @@ const styles = StyleSheet.create({
       height : 40,
       borderRadius : 20,
     },
+    iconText :{
+      color : '#707070',
+      marginLeft : 5 ,
+      fontSize : 15
+    },
     drawerBottonRight :{
       marginRight : 15,
     },
@@ -308,12 +261,10 @@ const styles = StyleSheet.create({
       alignItems : 'center',
       justifyContent : 'center',
     },
-
     loadingImage :{
       height : 100,
       width : 100,
     },
-
     itemContainer :{
       borderRadius : 10 ,
       height : 120,
@@ -323,11 +274,9 @@ const styles = StyleSheet.create({
       marginLeft : 25,
       marginRight : 25,
       borderLeftWidth : 10 ,
-      borderBottomWidth : 3,
+      // borderBottomWidth : 3,
       elevation :3,
-
     },
-   
     bottomContainer :{
       flexDirection: 'row', 
         flex : 1,
@@ -336,13 +285,11 @@ const styles = StyleSheet.create({
         marginBottom : 10,
         alignItems : 'center',
         justifyContent : 'center',
-      
     },
     imageButtonStyle : {
-      width : 20,
-      height : 20,
+      width : 23,
+      height : 23,
     },
-   
     textBodyContainer : {
       flexDirection: 'row', 
       flex :3,
@@ -360,20 +307,21 @@ const styles = StyleSheet.create({
     textBody : {
       fontSize : 23,
       fontWeight : '300',
-      color : '#606060'
+      color : '#707070',
+      fontFamily: "vincHand",
     },
     buttonTempStyle :{
-      width : 60,
-      height : 35,
+      borderColor : '#707070',
+      width : 90,
+      height : 40,
       alignItems : 'center',
       justifyContent : 'center',
-      borderWidth : 3 , 
+      borderWidth : 1 , 
       borderRadius : 10,
       marginRight : 10,
       marginLeft : 10,
       marginBottom : 10,
-      backgroundColor : '#E8EAED',
-
+      flexDirection : 'row'
+      // backgroundColor : '#E8EAED',
     }
-    
 })
