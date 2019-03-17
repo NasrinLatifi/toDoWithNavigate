@@ -56,6 +56,7 @@ class Main extends Component {
   }
 
   componentWillMount(){
+    this.props.setType(this.props.type)
     const name = this.props.type;
     this.props.navigation.setParams({name});
   }

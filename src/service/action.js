@@ -82,7 +82,7 @@ export const setSearchItem = text => {
 
 
 export const setItem = (text , type ) => {
-  if (type.length <2 )
+  if (type <2 )
     type = 'All'
   let now =new Date();
   return dispatch => {

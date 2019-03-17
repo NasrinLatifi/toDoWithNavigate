@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
-import { Text, View , StyleSheet , Image , FlatList , TouchableHighlight } from 'react-native';
+import { Text, View , StyleSheet , Image , Dimensions , FlatList , TouchableHighlight } from 'react-native';
 import data from '../components/SectionData'
 import{connect} from 'react-redux'
 import{ setType} from '../service/action'
+
+const dim = Dimensions.get('window').height
 class DrawerScreen extends Component {
   render () {
     return (
@@ -20,10 +22,11 @@ class DrawerScreen extends Component {
         </View>
 
         <FlatList
+          style ={{height : dim * (6/11)}}
          data = {data}
          keyExtractor={item => item.name}
          renderItem={({item}) =>( 
-            <TouchableHighlight style = {styles.itemStyle}
+            <TouchableHighlight style = {styles.itemStyle }
                 onPress = {() => {
                   this.props.setType (item.name );
                   this.props.navigation.navigate(item.name , {name : item.name} )
@@ -58,7 +61,7 @@ class DrawerScreen extends Component {
             </View>
           </TouchableHighlight>
         </View>
-      </View>
+       </View>
     );
   }
 }
@@ -81,7 +84,8 @@ const styles = StyleSheet.create({
       marginTop : 40 ,
   },
   headerStyle : {
-      height : 130,
+      // height : 130,
+      height : dim * (2/11),
       alignItems: 'center',
       backgroundColor: '#000066',
   }, 
@@ -103,13 +107,15 @@ const styles = StyleSheet.create({
     fontSize : 18,
   },
   itemStyle :{
-    marginTop: 12,
-    height : 37 ,
+    // marginTop: 22,
+    // height : 37 ,
+    height : dim * (1/11),
     flexDirection :'row',
     alignItems: 'center',
 
   },
   itemView : {
+    flex : 7,
     marginLeft : 30,
     flexDirection :'row',
     alignItems: 'center',
@@ -133,6 +139,7 @@ const styles = StyleSheet.create({
     fontSize : 19,
   },
   endStyle :{
+    height : dim * (2/11),
     marginBottom : 20,
   },
 });

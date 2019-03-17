@@ -1,18 +1,23 @@
 import React, {Component} from 'react';
-import {Text, StyleSheet, Image, TouchableOpacity ,  View , FlatList ,TextInput}  from 'react-native';
+import {Text, StyleSheet, Image, TouchableOpacity ,  View , FlatList , TextInput }  from 'react-native';
 import{connect} from 'react-redux';
 import{ setSearchItem , setType , setRemoveItem , setItem} from '../service/action';
-import SearchBar from '../components/SearchBar'
 
 class Main extends Component {
   
   constructor (props) {
     super(props)
     this.state = {
+      text : '',
       color : '#303451',
+      cleanText(){
+        this.text = ''
+      } 
     }
     
   }
+
+  
   
 
 
@@ -36,8 +41,19 @@ class Main extends Component {
     }
   }
 
+  
+
+
+  componentWillMount(){
+    // this.props.setType(this.props.type)
+    const name = this.props.type;
+    const prps = this.props;
+    const stt = this.state;
+    this.props.navigation.setParams({name ,prps , stt});
+  }
 
   static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state;
     return{
         headerStyle: {
           backgroundColor: '#303451',
@@ -48,9 +64,36 @@ class Main extends Component {
           fontWeight: 'bold',
         },
 
+        headerLeft :(
+          <TouchableOpacity
+          style = {styles.backButton}
+          onPress = {() => {
+            navigation.goBack(),
+            params.prps.setType (params.name)
+            // params.stt.cleanText()
+            }}>
+            <Image 
+            style = {styles.backImage}
+            source = {require('../assests/back.png')}/>
+          </TouchableOpacity>
+        ),
+
         headerRight: (
          
-         <SearchBar/>
+          <View style = {[styles.headerStyle , {justifyContent : 'space-between'}]}>
+    
+            <TextInput 
+            placeholder = "Search"
+            // value = {params.stt.text}
+            onChangeText = { (input) => {
+              params.prps.setType(params.name)
+              params.prps.setSearchItem(input)
+             
+              
+            }}
+            style = {styles.textInputStyle} />
+        </View>
+           
         ),
     
     }; 
@@ -129,6 +172,28 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor : '#E8EAED',  
+    },
+    backButton :{
+      marginLeft : 12,
+      height : 20,
+      width: 20,
+    },
+    headerStyle :{
+      flexDirection: 'row', 
+      alignItems: 'center',
+      marginRight : 25
+  },
+  textInputStyle : {
+      paddingLeft :15,
+      backgroundColor : 'white',
+      marginRight : 15,
+      width : 300,
+      height : 40,
+      borderRadius : 20,
+    },
+    backImage : {
+      width : 20,
+      height : 20,
     },
     addStyle : {
       backgroundColor:'white',

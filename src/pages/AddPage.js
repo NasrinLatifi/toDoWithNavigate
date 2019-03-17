@@ -32,9 +32,26 @@ import{ setItem , setType} from '../service/action'
         }
       }
 
+      setText(input) {
+          this.setState({text : input})
+      }
+      pressButton (navigation, type){
+        if( this.state.text.length > 0 ){
+          this.props.setItem (this.state.text , type),
+          this.props.setType (type),
+          navigation.goBack()
+        }
+       
+       }
+
+      componentWillMount(){
+        const name = this.props.type;
+        const prps = this.props;
+        this.props.navigation.setParams({name ,prps });
+      }
 
     static navigationOptions = ({ navigation }) => {
-      
+      const { params } = navigation.state;
       return{
           title : params ?  params.name? params.name : 'ALL' : 'All Alaki' ,
           headerStyle: {
@@ -45,6 +62,19 @@ import{ setItem , setType} from '../service/action'
           headerTitleStyle: {
             fontWeight: 'bold',
           },
+
+          headerLeft :(
+            <TouchableOpacity
+            style = {styles.backButton}
+            onPress = {() => {
+              params.prps.setType (params.name),
+              navigation.goBack()
+              }}>
+              <Image 
+              style = {styles.backImage}
+              source = {require('../assests/back.png')}/>
+            </TouchableOpacity>
+          ),
           
           headerRight : (
             <TouchableOpacity 
@@ -62,7 +92,7 @@ import{ setItem , setType} from '../service/action'
    
     render(){
         const { navigation } = this.props;
-        const type = navigation.getParam('name', 'All');
+        const type = this.props.type
         return(
 
             <View style = {styles.container}>
@@ -92,7 +122,15 @@ import{ setItem , setType} from '../service/action'
     }
 }
 
-export default connect(null ,{ setItem , setType})(AddPage)
+const mapStateToProps=(state)=>{
+  return{
+    selectedItem : state.selectedItem,
+    type : state.type,
+  }
+}
+
+
+export default connect(mapStateToProps ,{ setItem , setType})(AddPage)
 
 const styles = StyleSheet.create({
     container : {
@@ -111,6 +149,15 @@ const styles = StyleSheet.create({
         bottom:40,
         zIndex : 1
       }, 
+      backButton :{
+        marginLeft : 12,
+        height : 20,
+        width: 20,
+      },
+      backImage : {
+        width : 20,
+        height : 20,
+      },
       buttonContainer : {
         marginTop : 25,
         alignItems : 'flex-end',
