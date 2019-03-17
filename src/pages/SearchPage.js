@@ -10,9 +10,6 @@ class Main extends Component {
     this.state = {
       text : '',
       color : '#303451',
-      cleanText(){
-        this.text = ''
-      } 
     }
     
   }
@@ -65,95 +62,81 @@ class Main extends Component {
         },
 
         headerLeft :(
+          <View style = {styles.headerLeftStyle}>
           <TouchableOpacity
           style = {styles.backButton}
           onPress = {() => {
             navigation.goBack(),
             params.prps.setType (params.name)
-            // params.stt.cleanText()
             }}>
             <Image 
             style = {styles.backImage}
             source = {require('../assests/back.png')}/>
           </TouchableOpacity>
-        ),
 
-        headerRight: (
-         
-          <View style = {[styles.headerStyle , {justifyContent : 'space-between'}]}>
-    
-            <TextInput 
-            placeholder = "Search"
-            // value = {params.stt.text}
-            onChangeText = { (input) => {
-              params.prps.setType(params.name)
-              params.prps.setSearchItem(input)
-             
+            <View style = {[styles.headerStyle , {justifyContent : 'space-between'}]}>
+                
+              <TextInput 
+              placeholder = "Search"
+              onChangeText = { (input) => {
+                params.prps.setType(params.name)
+                params.prps.setSearchItem(input)
               
-            }}
-            style = {styles.textInputStyle} />
-        </View>
-           
+                
+              }}
+              style = {styles.textInputStyle} />
+            </View>
+
+            </View>
         ),
-    
     }; 
 }
-  
-  
+  render(){
+      return(
+          <View style = {styles.container}>
+              
+                <View style = {styles.bodyStyle}>
+                  <FlatList
+                    style = {styles.flatStyle}
+                    data = {this.props.selectedItem}
+                    keyExtractor = {item => item.id.toString()}
+                    renderItem ={ ({item , index})  => 
+                      <View style = {[styles.itemContainer , { borderLeftColor : this.chooseColor(item.type) }]}>
+                        <TouchableOpacity style = {styles.textBodyContainer}
+                        onPress = {() => this.showFullText(item)}>
 
-    render(){
-        
-        return(
-            <View style = {styles.container}>
-               
-                  <View style = {styles.bodyStyle}>
-                    
-                  
-                    <FlatList
-                      style = {styles.flatStyle}
-                      data = {this.props.selectedItem}
-                      keyExtractor = {item => item.id.toString()}
-                      renderItem ={ ({item , index})  => 
-                        <View style = {[styles.itemContainer , { borderLeftColor : this.chooseColor(item.type) }]}>
-
-                          
-                          <TouchableOpacity style = {styles.textBodyContainer}
-                          onPress = {() => this.showFullText(item)}>
-
-                            <View style = {[styles.roundStyle , { backgroundColor : this.chooseColor(item.type)}]} />
-                            <Text style = {styles.textBody} >{item.text.slice(0,25)}{item.text.length>25 && "..." }</Text>
-                          </TouchableOpacity>  
-                          
-
-                          <View style = {styles.bottomContainer}>
-                              <TouchableOpacity style = {[styles.buttonTempStyle , {borderColor : this.chooseColor(item.type) }]}>
-                                <Image source = {require('../assests/edit.png')}
+                          <View style = {[styles.roundStyle , { backgroundColor : this.chooseColor(item.type)}]} />
+                          <Text style = {styles.textBody} >{item.text.slice(0,25)}{item.text.length>25 && "..." }</Text>
+                        </TouchableOpacity>  
+                        <View style = {styles.bottomContainer}>
+                            <TouchableOpacity style = {[styles.buttonTempStyle , {borderColor : this.chooseColor(item.type) }]}>
+                              <Image source = {require('../assests/edit.png')}
+                              style = {styles.imageButtonStyle}/>
+                            </TouchableOpacity>
+                            <View style = {[styles.buttonTempStyle , {borderColor : this.chooseColor(item.type) }] }>
+                              <TouchableOpacity 
+                              onPress ={() => this.props.setRemoveItem(item.id)}>
+                                <Image source = {require('../assests/delete-button.png')}
                                 style = {styles.imageButtonStyle}/>
                               </TouchableOpacity>
-                              <View style = {[styles.buttonTempStyle , {borderColor : this.chooseColor(item.type) }] }>
-                                <TouchableOpacity 
-                                onPress ={() => this.props.setRemoveItem(item.id)}>
-                                  <Image source = {require('../assests/delete-button.png')}
-                                  style = {styles.imageButtonStyle}/>
-                                </TouchableOpacity>
-                              </View>
-                          
-                          </View>
-
+                            </View>
+                        
                         </View>
-                        }   />
-                      <TouchableOpacity 
-                      style = {styles.addStyle}
-                      onPress ={() => this.props.navigation.navigate("Add" ,{"name" : this.props.type})}
-                        style = {styles.addStyle}>
-                          <Image 
-                          style = {styles.addImageStyle}
-                          source = {require('../assests/plus.png')}/>
-                        </TouchableOpacity>
-                      
-                  </View>
-                
-            </View>
+
+                      </View>
+                      }   />
+                    <TouchableOpacity 
+                    style = {styles.addStyle}
+                    onPress ={() => this.props.navigation.navigate("Add" ,{"name" : this.props.type})}
+                      style = {styles.addStyle}>
+                        <Image 
+                        style = {styles.addImageStyle}
+                        source = {require('../assests/plus.png')}/>
+                      </TouchableOpacity>
+                    
+                </View>
+              
+          </View>
         )
     }
 }
@@ -173,6 +156,10 @@ const styles = StyleSheet.create({
       flex: 1,
       backgroundColor : '#E8EAED',  
     },
+    headerLeftStyle :{
+      flexDirection : 'row',
+      alignItems : 'center'
+    },
     backButton :{
       marginLeft : 12,
       height : 20,
@@ -181,7 +168,7 @@ const styles = StyleSheet.create({
     headerStyle :{
       flexDirection: 'row', 
       alignItems: 'center',
-      marginRight : 25
+       marginLeft : 20
   },
   textInputStyle : {
       paddingLeft :15,

@@ -135,12 +135,14 @@ class Main extends Component {
                           onPress = {() => this.showFullText(item)}>
 
                             <View style = {[styles.roundStyle , { backgroundColor : this.chooseColor(item.type)}]} />
-                            <Text style = {styles.textBody} >{item.text.slice(0,25)}{item.text.length>25 && "..." }</Text>
+                            <Text style = {styles.textBody} ellipsizeMode='tail' numberOfLines={1} >{item.text}</Text>
                           </TouchableOpacity>  
                           
 
                           <View style = {styles.bottomContainer}>
-                                <TouchableOpacity style = {styles.buttonTempStyle}>
+                                <TouchableOpacity style = {styles.buttonTempStyle}
+                                 onPress ={() => this.props.navigation.navigate("Edit" ,{"item" : item})}
+                                 >
                                   <Image source = {require('../assests/edit.png')}
                                   style = {styles.imageButtonStyle}/>
                                   <Text style = {styles.iconText}>Edit</Text>

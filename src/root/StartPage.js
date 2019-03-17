@@ -41,7 +41,6 @@ const MyDrawerNavigator = createDrawerNavigator(
   },
   {
     drawerPosition : 'left',
-    useNativeAnimations : 'true',
     contentComponent : DrawerScreen ,
     backBehavior : 'initialRoute',
   } ,

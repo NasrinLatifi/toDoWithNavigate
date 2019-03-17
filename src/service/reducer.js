@@ -1,4 +1,4 @@
-import {CHECK_LOGIN , FETCH_USERS_BEGIN ,FETCH_USERS_SUCCESS ,FETCH_USERS_FAILURE, SEARCH_ITEM , SET_TYPE , SET_ITEM , REMOVE_ITEM, FETCH_PRODUCTS_BEGIN , FETCH_PRODUCTS_SUCCESS , FETCH_PRODUCTS_FAILURE} from './type'
+import {EDIT_TASK , FETCH_USERS_BEGIN ,FETCH_USERS_SUCCESS ,FETCH_USERS_FAILURE, SEARCH_ITEM , SET_TYPE , SET_ITEM , REMOVE_ITEM, FETCH_PRODUCTS_BEGIN , FETCH_PRODUCTS_SUCCESS , FETCH_PRODUCTS_FAILURE} from './type'
 
 
 const initialState = {
@@ -52,6 +52,28 @@ function reducer(state = initialState, action) {
                     ...state.selectedItem.slice(indexSelected + 1 )
                 ]
             };
+
+        case EDIT_TASK : 
+
+        const indexT = state.items.findIndex(({ id }) => id == action.payload );
+        const indexSelectedT = state.selectedItem.findIndex(({ id }) => id == action.payload );
+        return {
+            ...state,
+            items : [
+                ...state.items.slice(0,indexT),
+
+                {"id": action.item.id , "text" : action.text , "date": action.item.date , "type":action.item.type},
+                
+                ...state.items.slice(indexT + 1 )
+            ],
+            selectedItem : [
+                ...state.selectedItem.slice(0,indexSelectedT),
+                
+                {"id": action.item.id , "text" : action.text , "date": action.item.date , "type":action.item.type},
+                
+                ...state.selectedItem.slice(indexSelectedT + 1 )
+            ]
+        };
 
         case FETCH_PRODUCTS_BEGIN:
                 return {

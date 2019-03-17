@@ -1,4 +1,4 @@
-import {CHECK_LOGIN , FETCH_USERS_BEGIN ,FETCH_USERS_SUCCESS , FETCH_USERS_FAILURE, SEARCH_ITEM , SET_TYPE , SET_ITEM , REMOVE_ITEM , FETCH_PRODUCTS_BEGIN , FETCH_PRODUCTS_SUCCESS , FETCH_PRODUCTS_FAILURE} from "./type";
+import {EDIT_TASK , CHECK_LOGIN , FETCH_USERS_BEGIN ,FETCH_USERS_SUCCESS , FETCH_USERS_FAILURE, SEARCH_ITEM , SET_TYPE , SET_ITEM , REMOVE_ITEM , FETCH_PRODUCTS_BEGIN , FETCH_PRODUCTS_SUCCESS , FETCH_PRODUCTS_FAILURE} from "./type";
 
 
 const setItemAction = (obj) => {
@@ -32,6 +32,15 @@ const setRemoveItemAction = (id)  => {
         type: FETCH_PRODUCTS_SUCCESS,
         payload:  products 
       }
+  }
+
+  const editAction = (id, text , item) => {
+    return{
+        type : EDIT_TASK,
+        payload : id,
+        text : text,
+        item : item
+    }
   }
   
  
@@ -149,19 +158,33 @@ export const fetchProducts = () => {
     };
   }
 
-  export const fetchUsers = () => {
-    return dispatch => {
-      dispatch(fetchUsersBegin());
-      fetch("http://10.0.2.2:4000/users")
-        .then(data =>  data.json())
-        .then(data => {
-          dispatch(fetchUsersSuccess(data));
-        })
-        .catch(error => dispatch(fetchUsersFailure(error)));
-    };
-  }
-
+ 
 
 export const checkLogin = (obj) =>{
   return checkLoginAction (obj);
 }
+
+
+export const editTask = (id , text , item) => {
+  return dispatch => {
+     
+      let data = {
+          "text": text
+      };
+      const url = `http://10.0.2.2:3000/tasks/`;
+      fetch(`${url}${id}/?text=${text}`,
+          {
+              method: 'PATCH',
+              headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(data)
+          }
+      )
+          .then(response => response.json())
+          .then(data => {
+              dispatch(editAction(id , text , item))
+          })
+  }
+};
