@@ -130,14 +130,14 @@ class Main extends Component {
                       renderItem ={ ({item , index})  => 
                         <View style = {[styles.itemContainer , { borderLeftColor : this.chooseColor(item.type) }]}>
 
-                          
-                          <TouchableOpacity style = {styles.textBodyContainer}
-                          onPress = {() => this.showFullText(item)}>
+                         <View style = {styles.bottomContainer}>
+                            <TouchableOpacity style = {styles.textBodyContainer}
+                            onPress = {() => this.showFullText(item)}>
 
-                            <View style = {[styles.roundStyle , { backgroundColor : this.chooseColor(item.type)}]} />
-                            <Text style = {styles.textBody} ellipsizeMode='tail' numberOfLines={1} >{item.text}</Text>
-                          </TouchableOpacity>  
-                          
+                              <View style = {[styles.roundStyle , { backgroundColor : this.chooseColor(item.type)}]} />
+                              <Text style = {styles.textBody} ellipsizeMode='tail' numberOfLines={1} >{item.text}</Text>
+                            </TouchableOpacity>  
+                          </View>
 
                           <View style = {styles.bottomContainer}>
                                 <TouchableOpacity style = {styles.buttonTempStyle}
@@ -270,7 +270,10 @@ const styles = StyleSheet.create({
     },
     itemContainer :{
       borderRadius : 10 ,
-      height : 120,
+      // height : 120,
+      flex :1 ,
+      paddingHorizontal : 20,
+      justifyContent : 'space-between',
       backgroundColor : '#F9F9F8',
       marginTop : 10,
       marginBottom : 10,
@@ -283,9 +286,7 @@ const styles = StyleSheet.create({
     bottomContainer :{
       flexDirection: 'row', 
         flex : 1,
-        marginRight : 15,
-        marginLeft : 15,
-        marginBottom : 10,
+        paddingVertical : 5,
         alignItems : 'center',
         justifyContent : 'center',
     },
@@ -296,8 +297,7 @@ const styles = StyleSheet.create({
     textBodyContainer : {
       flexDirection: 'row', 
       flex :3,
-      marginLeft : 25,
-      marginRight : 10,
+      paddingTop : 10,
       marginBottom : 15,
       alignItems : 'center',
     },
@@ -324,7 +324,8 @@ const styles = StyleSheet.create({
       marginRight : 10,
       marginLeft : 10,
       marginBottom : 10,
-      flexDirection : 'row'
+      flexDirection : 'row',
+      
       // backgroundColor : '#E8EAED',
     }
 })

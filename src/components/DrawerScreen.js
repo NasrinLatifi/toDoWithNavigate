@@ -22,7 +22,7 @@ class DrawerScreen extends Component {
         </View>
 
         <FlatList
-          style ={{height : dim * (6/11)}}
+          style ={{height : dim * (6/10)}}
          data = {data}
          keyExtractor={item => item.name}
          renderItem={({item}) =>( 
@@ -42,7 +42,7 @@ class DrawerScreen extends Component {
         />
         <View style = {styles.borderStyle}></View>
         <View style = {styles.endStyle}>
-          <TouchableHighlight style = {styles.itemStyle}
+          {/* <TouchableHighlight style = {styles.itemStyle}
           onPress = {() => this.props.navigation.navigate('Edit' , {name : 'Edit'} )}>
             <View style = {styles.itemView}>
                 <Image source = {require('../assests/writing.png')}
@@ -50,7 +50,7 @@ class DrawerScreen extends Component {
                 />
                 <Text style = {styles.textStyle}>Edit Task List</Text>
             </View>    
-          </TouchableHighlight>
+          </TouchableHighlight> */}
           <TouchableHighlight style = {styles.itemStyle}
           onPress = {() => this.props.navigation.navigate('Settings' , {name : 'Settings'})}>
             <View style = {styles.itemView}>
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
   },
   headerStyle : {
       // height : 130,
-      height : dim * (2/11),
+      height : dim * (2/10),
       alignItems: 'center',
       backgroundColor: '#000066',
   }, 
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
   itemStyle :{
     // marginTop: 22,
     // height : 37 ,
-    height : dim * (1/11),
+    height : dim * (1/10),
     flexDirection :'row',
     alignItems: 'center',
 
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
     fontSize : 19,
   },
   endStyle :{
-    height : dim * (2/11),
+    height : dim * (2/10),
     marginBottom : 20,
   },
 });
