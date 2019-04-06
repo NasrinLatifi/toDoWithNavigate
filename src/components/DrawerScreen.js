@@ -22,7 +22,7 @@ class DrawerScreen extends Component {
         </View>
 
         <FlatList
-          style ={{height : dim * (6/10)}}
+          style ={{height : dim * (7/10)}}
          data = {data}
          keyExtractor={item => item.name}
          renderItem={({item}) =>( 
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
     fontSize : 19,
   },
   endStyle :{
-    height : dim * (2/10),
+    height : dim * (1/10),
     marginBottom : 20,
   },
 });

@@ -130,12 +130,12 @@ class Main extends Component {
                       renderItem ={ ({item , index})  => 
                         <View style = {[styles.itemContainer , { borderLeftColor : this.chooseColor(item.type) }]}>
 
-                         <View style = {styles.bottomContainer}>
+                         <View style = {[styles.bottomContainer , styles.justPadding]}>
                             <TouchableOpacity style = {styles.textBodyContainer}
                             onPress = {() => this.showFullText(item)}>
 
                               <View style = {[styles.roundStyle , { backgroundColor : this.chooseColor(item.type)}]} />
-                              <Text style = {styles.textBody} ellipsizeMode='tail' numberOfLines={1} >{item.text}</Text>
+                              <Text style = {styles.textBody} ellipsizeMode='middle' numberOfLines={1} >{item.text}</Text>
                             </TouchableOpacity>  
                           </View>
 
@@ -267,6 +267,9 @@ const styles = StyleSheet.create({
     loadingImage :{
       height : 100,
       width : 100,
+    },
+    justPadding :{
+      paddingRight : 20
     },
     itemContainer :{
       borderRadius : 10 ,
