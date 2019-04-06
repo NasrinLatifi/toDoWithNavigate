@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { Text, View , StyleSheet , Image , Dimensions , FlatList , TouchableHighlight } from 'react-native';
 import data from '../components/SectionData'
 import{connect} from 'react-redux'
-import{ setType} from '../service/action'
+import{ setType} from '../service/FetchService/action'
 
 const dim = Dimensions.get('window').height
 class DrawerScreen extends Component {

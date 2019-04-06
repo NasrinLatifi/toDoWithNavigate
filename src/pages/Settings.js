@@ -99,12 +99,13 @@ const styles = StyleSheet.create({
       marginRight : 25,
       borderWidth : 4 ,
       elevation :3,
-      borderColor : '#771327'
+      // borderColor : 'rgba(132, 21, 43 , 1)',
+      borderColor : 'rgba(119, 19, 39,.75)',
       
     },
     textStyle : {
-      fontWeight: '500',
-      color : '#707070',
-      fontSize : 17
+      fontWeight: '400',
+      color : '#606060',
+      fontSize : 18
     }
 })

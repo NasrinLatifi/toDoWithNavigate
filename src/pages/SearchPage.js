@@ -1,15 +1,17 @@
 import React, {Component} from 'react';
-import {Text, StyleSheet, Image, TouchableOpacity ,  View , FlatList , TextInput }  from 'react-native';
+import {Text, StyleSheet, Image, TouchableOpacity ,  View , FlatList , TextInput , Animated }  from 'react-native';
 import{connect} from 'react-redux';
-import{ setSearchItem , setType , setRemoveItem , setItem} from '../service/action';
+import{ setSearchItem , setType , setRemoveItem , setItem} from '../service/FetchService/action';
 
 class Main extends Component {
   
   constructor (props) {
     super(props)
+    this.animatedValue = new Animated.Value(0)
     this.state = {
       text : '',
       color : '#303451',
+      
     }
     
   }
@@ -38,7 +40,6 @@ class Main extends Component {
     }
   }
 
-  
 
 
   componentWillMount(){
@@ -92,12 +93,13 @@ class Main extends Component {
     }; 
 }
   render(){
+    
       return(
           <View style = {styles.container}>
               
                 <View style = {styles.bodyStyle}>
-                  <FlatList
-                    style = {styles.flatStyle}
+                  <Animated.FlatList
+                    style = {styles.flatStyle }
                     data = {this.props.selectedItem}
                     keyExtractor = {item => item.id.toString()}
                     renderItem ={ ({item , index})  => 
@@ -143,8 +145,8 @@ class Main extends Component {
 
 const mapStateToProps=(state)=>{
   return{
-    selectedItem : state.selectedItem,
-    type : state.type,
+    selectedItem : state.fetchReducer.selectedItem,
+    type : state.fetchReducer.type,
   }
 }
 

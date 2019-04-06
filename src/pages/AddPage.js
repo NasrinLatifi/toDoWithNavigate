@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Text, StyleSheet, Image, TouchableOpacity , View , TextInput}  from 'react-native';
 import{connect} from 'react-redux'
-import{ setItem , setType} from '../service/action'
+import{ setItem , setType} from '../service/FetchService/action'
 
  class AddPage extends Component{
     constructor (props) {
@@ -124,8 +124,8 @@ import{ setItem , setType} from '../service/action'
 
 const mapStateToProps=(state)=>{
   return{
-    selectedItem : state.selectedItem,
-    type : state.type,
+    selectedItem : state.fetchReducer.selectedItem,
+    type : state.fetchReducer.type,
   }
 }
 

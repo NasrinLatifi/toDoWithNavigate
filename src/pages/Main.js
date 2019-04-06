@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Text, StyleSheet, Image, TouchableOpacity , Alert , View , FlatList , Animated , TextInput}  from 'react-native';
 import{connect} from 'react-redux';
-import{ setSearchItem , setType , setRemoveItem , setItem} from '../service/action';
+import{ setSearchItem , setType , setRemoveItem , setItem} from '../service/FetchService/action';
 
 class Main extends Component {
   
@@ -179,9 +179,9 @@ class Main extends Component {
 
 const mapStateToProps=(state)=>{
   return{
-    selectedItem : state.selectedItem,
-    loading : state.loading,
-    type : state.type,
+    selectedItem : state.fetchReducer.selectedItem,
+    loading : state.fetchReducer.loading,
+    type : state.fetchReducer.type,
   }
 }
 
