@@ -65,13 +65,17 @@ class Main extends Component {
     
     return{
         title : params ?  (params.name? params.name : 'ALL') : '' ,
+        
+        
         headerStyle: {
           backgroundColor: '#303451',
         },
 
         headerTintColor: 'white',
         headerTitleStyle: {
-          fontWeight: 'bold',
+          fontWeight: '500',
+          fontFamily: 'sans-serif-medium',
+          fontSize : 25
         },
 
         headerRight: (
@@ -254,7 +258,8 @@ const styles = StyleSheet.create({
     iconText :{
       color : '#707070',
       marginLeft : 5 ,
-      fontSize : 15
+      fontSize : 15,
+      fontFamily : 'sans-serif-medium'
     },
     drawerBottonRight :{
       marginRight : 15,
@@ -314,7 +319,8 @@ const styles = StyleSheet.create({
       fontSize : 23,
       fontWeight : '300',
       color : '#707070',
-      fontFamily: "vincHand",
+      //fontFamily: "vincHand",
+      fontFamily : 'sans-serif-medium',
     },
     buttonTempStyle :{
       borderColor : '#707070',

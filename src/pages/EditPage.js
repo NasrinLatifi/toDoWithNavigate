@@ -71,7 +71,9 @@ import{ editTask , setType} from '../service/FetchService/action'
   
           headerTintColor: 'white',
           headerTitleStyle: {
-            fontWeight: 'bold',
+            fontWeight: '500',
+            fontFamily: 'sans-serif-medium',
+            fontSize : 25
           },
 
           headerLeft :(

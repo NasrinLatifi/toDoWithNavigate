@@ -104,7 +104,8 @@ const styles = StyleSheet.create({
     marginLeft : 10,
     fontWeight : '500',
     color : '#F9F9F8',
-    fontSize : 18,
+    fontSize : 20,
+    fontFamily : 'cursive'
   },
   itemStyle :{
     // marginTop: 22,
@@ -137,6 +138,7 @@ const styles = StyleSheet.create({
     fontWeight : '400',
     color : '#303451',
     fontSize : 19,
+    fontFamily : 'sans-serif-medium'
   },
   endStyle :{
     height : dim * (1/10),
