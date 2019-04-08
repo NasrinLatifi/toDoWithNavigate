@@ -57,7 +57,7 @@ import {ThemeContext} from '../components/ThemeContext'
       return{
           title : params ?  params.name? params.name : 'ALL' : 'All Alaki' ,
           headerStyle: {
-            backgroundColor: '#303451',
+            backgroundColor: '#424770',
           },
   
           headerTintColor: 'white',
@@ -105,7 +105,7 @@ import {ThemeContext} from '../components/ThemeContext'
                     <TextInput
                      value = {this.state.text}
                      placeholder = "Write your Task =)"
-                     style = {[styles.textInputStyle , {borderColor : this.chooseColor(type)}]}
+                     style = {[styles.textInputStyle , {backgroundColor : theme.itemColor,borderColor : this.chooseColor(type)}]}
                      onChangeText = {this.setText.bind(this )}>
                     </TextInput>
 

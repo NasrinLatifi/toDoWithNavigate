@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
-import { createAppContainer , createDrawerNavigator , createStackNavigator } from 'react-navigation';
+import { createAppContainer , createDrawerNavigator , createStackNavigator , createSwitchNavigator } from 'react-navigation';
 import DrawerScreen from '../components/DrawerScreen'
 import Settings from '../pages/Settings'
 import AddPage from '../pages/AddPage'
 import Main from '../pages/Main'
 import Search from '../pages/SearchPage'
 import Edit from '../pages/EditPage'
+import StartPage from '../pages/StartPage'
+import singIn from '../pages/SignIn'
 import{connect} from 'react-redux'
 import{fetchProducts } from '../service/FetchService/action'
 
@@ -88,9 +90,31 @@ const MyDrawerNavigator = createDrawerNavigator(
   },
  
   );
-  
 
-const AppContainer = createAppContainer(MyDrawerNavigator);
+  const Root = createSwitchNavigator(
+    {
+        Home : StartPage,
+        singIn : singIn,
+    },
+    {
+        initialRouteName : 'Home'
+    }
+
+  );
+
+  const Temp = createSwitchNavigator(
+    {
+        Home : StartPage,
+       singIn : MyDrawerNavigator,
+    },
+    {
+        initialRouteName : 'Home'
+    }
+
+  );
+
+
+const AppContainer = createAppContainer(Temp);
  class App extends Component {
     componentDidMount (){
       this.props.fetchProducts();

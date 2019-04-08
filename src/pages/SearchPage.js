@@ -56,7 +56,7 @@ class Main extends Component {
     const { params } = navigation.state;
     return{
         headerStyle: {
-          backgroundColor: '#303451',
+          backgroundColor: '#424770',
         },
 
         headerTintColor: 'white',

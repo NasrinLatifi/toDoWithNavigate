@@ -9,6 +9,7 @@ class Main extends Component {
     super(props)
     this.state = {
       spinValue : new Animated.Value(0),
+      opacityValue : new Animated.Value(0),
       text : '',
       color : '#303451',
       name : 'Alaki',
@@ -37,6 +38,7 @@ class Main extends Component {
 
   componentDidMount (){
     this.spin()
+    this.opacity()
   }
 
   showFullText (item){
@@ -55,6 +57,18 @@ class Main extends Component {
 
   }
 
+  opacity () {
+    this.state.opacityValue.setValue(0)
+    Animated.timing(
+      this.state.opacityValue,
+      {
+        toValue: 1,
+        duration: 2000,
+      }
+    ).start()
+
+  }
+
   componentWillMount(){
     this.props.setType(this.props.type)
     const name = this.props.type;
@@ -68,7 +82,7 @@ class Main extends Component {
         
         
         headerStyle: {
-          backgroundColor: '#303451',
+          backgroundColor: '#424770',
         },
 
         headerTintColor: 'white',
@@ -108,13 +122,17 @@ class Main extends Component {
     }; 
 }
     render(){
+      const opacity = this.state.opacityValue.interpolate({
+        inputRange: [0,  1],
+        outputRange: [0, 1]
+      })
         let theme = this.context
         const spin = this.state.spinValue.interpolate({
             inputRange: [0, 1],
             outputRange: ['0deg', '360deg']
         })
         return(
-            <View style = {[styles.container , {backgroundColor: theme.backgroundColor}]}>
+            <Animated.View style = {[styles.container , {backgroundColor: theme.backgroundColor , opacity}]}>
              
                 {
                   this.props.loading && 
@@ -140,8 +158,8 @@ class Main extends Component {
                             <TouchableOpacity style = {styles.textBodyContainer}
                             onPress = {() => this.showFullText(item)}>
 
-                              <View style = {[styles.roundStyle , { backgroundColor : this.chooseColor(item.type)}]} />
-                              <Text style = {styles.textBody} ellipsizeMode='middle' numberOfLines={1} >{item.text}</Text>
+                              <View style = {[styles.roundStyle , {borderColor : theme.backgroundColor , backgroundColor : this.chooseColor(item.type)}]} />
+                              <Text style = {[styles.textBody , {color : theme.fontColor}]} ellipsizeMode='middle' numberOfLines={1} >{item.text}</Text>
                             </TouchableOpacity>  
                           </View>
 
@@ -150,16 +168,16 @@ class Main extends Component {
                                  onPress ={() => this.props.navigation.navigate("Edit" ,{"item" : item})}
                                  >
                                   <Image source = {require('../assests/edit.png')}
-                                  style = {styles.imageButtonStyle}/>
-                                  <Text style = {styles.iconText}>Edit</Text>
+                                  style = {[styles.imageButtonStyle , { borderColor :theme.fontColor}]}/>
+                                  <Text style = {[styles.iconText , {color : theme.fontColor}]}>Edit</Text>
                                 </TouchableOpacity>
                               
                                 <TouchableOpacity 
-                                style = {styles.buttonTempStyle}
+                                style = {[styles.buttonTempStyle , { borderColor :theme.fontColor}]}
                                 onPress ={() => this.props.setRemoveItem(item.id)}>
                                   <Image source = {require('../assests/delete-button.png')}
                                   style = {styles.imageButtonStyle}/>
-                                  <Text  style = {styles.iconText}>Delete</Text>
+                                  <Text  style = {[styles.iconText , {color : theme.fontColor}]}>Delete</Text>
                                 </TouchableOpacity>
                               
                           
@@ -178,7 +196,7 @@ class Main extends Component {
                       
                   </View>
                 }
-            </View>
+            </Animated.View>
         )
     }
 }
@@ -311,12 +329,14 @@ const styles = StyleSheet.create({
       paddingTop : 10,
       marginBottom : 15,
       alignItems : 'center',
+      
     },
     roundStyle :{
-      width :10,
-      height :10,
+      width :13,
+      height :13,
       marginRight : 5,
       borderRadius : 50, 
+      borderWidth : 2 ,
     },
     textBody : {
       fontSize : 23,

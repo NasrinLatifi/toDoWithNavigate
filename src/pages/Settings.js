@@ -11,7 +11,7 @@ class Settings extends Component{
       return{
           title :  'Settings' ,
           headerStyle: {
-            backgroundColor: '#303451',
+            backgroundColor: '#424770',
           },
   
           headerTintColor: 'white',
@@ -45,32 +45,32 @@ class Settings extends Component{
                 <TouchableOpacity
                 style = {[styles.buttonStyle , {backgroundColor : theme.itemColor}]}
                 onPress = {this.onPressChangeTheme.bind(this)}>
-                    <Text style = {styles.textStyle}>Change Theme</Text>
+                    <Text style = {[styles.textStyle , {color : theme.fontColor}]}>Change Theme</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
                 style = {[styles.buttonStyle , {backgroundColor : theme.itemColor}]}>
-                    <Text style = {styles.textStyle}>Change Language</Text>
+                    <Text style = {[styles.textStyle , {color : theme.fontColor}]}>Change Language</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
                style = {[styles.buttonStyle , {backgroundColor : theme.itemColor}]}>
-                    <Text style = {styles.textStyle}>Management</Text>
+                    <Text style = {[styles.textStyle , {color : theme.fontColor}]}>Management</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
                 style = {[styles.buttonStyle , {backgroundColor : theme.itemColor}]}>
-                    <Text style = {styles.textStyle}>Switch Account</Text>
+                    <Text style = {[styles.textStyle , {color : theme.fontColor}]}>Switch Account</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
                style = {[styles.buttonStyle , {backgroundColor : theme.itemColor}]}>
-                    <Text style = {styles.textStyle}>Help</Text>
+                    <Text style = {[styles.textStyle , {color : theme.fontColor}]}>Help</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
                 style = {[styles.buttonStyle , {backgroundColor : theme.itemColor}]}>
-                    <Text style = {styles.textStyle}>About Us</Text>
+                    <Text style = {[styles.textStyle , {color : theme.fontColor}]}>About Us</Text>
                 </TouchableOpacity>
               </ScrollView>
             </View>

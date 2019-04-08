@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
       // height : 130,
       height : dim * (2/10),
       alignItems: 'center',
-      backgroundColor: '#000066',
+      backgroundColor: '#424770',
   }, 
   componentStle : {
     alignItems: 'center',
