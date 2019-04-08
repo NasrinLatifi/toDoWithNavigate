@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {Text, StyleSheet, Image, TouchableOpacity , View , TextInput}  from 'react-native';
 import{connect} from 'react-redux'
 import{ setItem , setType} from '../service/FetchService/action'
+import {ThemeContext} from '../components/ThemeContext'
+
 
  class AddPage extends Component{
     constructor (props) {
@@ -93,11 +95,12 @@ import{ setItem , setType} from '../service/FetchService/action'
   
    
     render(){
+      let theme = this.context
         const { navigation } = this.props;
         const type = this.props.type
         return(
 
-            <View style = {styles.container}>
+          <View style = {[styles.container , {backgroundColor: theme.backgroundColor}]}>
                 <View  style= {styles.inputContainer}>
                     <TextInput
                      value = {this.state.text}
@@ -133,7 +136,7 @@ const mapStateToProps=(state)=>{
 
 
 export default connect(mapStateToProps ,{ setItem , setType})(AddPage)
-
+AddPage.contextType = ThemeContext;
 const styles = StyleSheet.create({
     container : {
         flex : 1,

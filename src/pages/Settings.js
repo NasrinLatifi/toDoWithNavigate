@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import {Text, StyleSheet, Image, TouchableOpacity , View , ScrollView }  from 'react-native';
-
-
-export default class EditPage extends Component{
+import {ThemeContext} from '../components/ThemeContext'
+import{ themeChanger } from '../service/UIService/action';
+import{connect} from 'react-redux';
+class Settings extends Component{
  
 
 
@@ -32,38 +33,43 @@ export default class EditPage extends Component{
           
       }; 
   }
+  onPressChangeTheme(){
+      this.props.themeChanger()
+  }
   
     render(){
+      let theme = this.context
         return(
-            <View style = {styles.container}>
+          <View style = {[styles.container , {backgroundColor: theme.backgroundColor}]}>
             <ScrollView>
                 <TouchableOpacity
-                style = {styles.buttonStyle}>
+                style = {[styles.buttonStyle , {backgroundColor : theme.itemColor}]}
+                onPress = {this.onPressChangeTheme.bind(this)}>
                     <Text style = {styles.textStyle}>Change Theme</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                style = {styles.buttonStyle}>
+                style = {[styles.buttonStyle , {backgroundColor : theme.itemColor}]}>
                     <Text style = {styles.textStyle}>Change Language</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                style = {styles.buttonStyle}>
+               style = {[styles.buttonStyle , {backgroundColor : theme.itemColor}]}>
                     <Text style = {styles.textStyle}>Management</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                style = {styles.buttonStyle}>
+                style = {[styles.buttonStyle , {backgroundColor : theme.itemColor}]}>
                     <Text style = {styles.textStyle}>Switch Account</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                style = {styles.buttonStyle}>
+               style = {[styles.buttonStyle , {backgroundColor : theme.itemColor}]}>
                     <Text style = {styles.textStyle}>Help</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                style = {styles.buttonStyle}>
+                style = {[styles.buttonStyle , {backgroundColor : theme.itemColor}]}>
                     <Text style = {styles.textStyle}>About Us</Text>
                 </TouchableOpacity>
               </ScrollView>
@@ -72,6 +78,9 @@ export default class EditPage extends Component{
     }
 }
 
+export default connect(null ,{ themeChanger })(Settings)
+
+Settings.contextType = ThemeContext;
 const styles = StyleSheet.create({
     container:{
         flex : 1,

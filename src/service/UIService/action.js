@@ -6,6 +6,6 @@ import {CHANGE_THEME,} from './type'
   type:CHANGE_THEME,
 })
 
-export const themeChangerAction=()=>{
+export const themeChanger=()=>{
   return themeChangerAction ()
 }

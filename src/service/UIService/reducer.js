@@ -1,5 +1,5 @@
 import {CHANGE_THEME,} from './type'
-import {themes} from "../../components/ThemeContex";
+import {themes} from "../../components/ThemeContext";
 
 const initialState = {
     theme: themes.light,

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Text, StyleSheet, Image, TouchableOpacity , Alert , View , FlatList , Animated , TextInput}  from 'react-native';
 import{connect} from 'react-redux';
 import{ setSearchItem , setType , setRemoveItem , setItem} from '../service/FetchService/action';
-
+import {ThemeContext} from '../components/ThemeContext'
 class Main extends Component {
   
   constructor (props) {
@@ -108,12 +108,13 @@ class Main extends Component {
     }; 
 }
     render(){
+        let theme = this.context
         const spin = this.state.spinValue.interpolate({
             inputRange: [0, 1],
             outputRange: ['0deg', '360deg']
         })
         return(
-            <View style = {styles.container}>
+            <View style = {[styles.container , {backgroundColor: theme.backgroundColor}]}>
              
                 {
                   this.props.loading && 
@@ -130,9 +131,10 @@ class Main extends Component {
                     <FlatList
                       style = {styles.flatStyle}
                       data = {this.props.selectedItem}
+                      extraData={theme}
                       keyExtractor = {item => item.id.toString()}
                       renderItem ={ ({item , index})  => 
-                        <View style = {[styles.itemContainer , { borderLeftColor : this.chooseColor(item.type) }]}>
+                        <View style = {[styles.itemContainer , { backgroundColor : theme.itemColor, borderLeftColor : this.chooseColor(item.type)}]}>
 
                          <View style = {[styles.bottomContainer , styles.justPadding]}>
                             <TouchableOpacity style = {styles.textBodyContainer}
@@ -191,6 +193,7 @@ const mapStateToProps=(state)=>{
 
 export default connect(mapStateToProps ,{setSearchItem , setType , setRemoveItem , setItem})(Main)
 
+Main.contextType = ThemeContext;
 
 const styles = StyleSheet.create({
     container: {

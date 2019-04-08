@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import { createStore , applyMiddleware  } from 'redux'
 import {Provider}  from 'react-redux'
-import Start from './src/routes/index';
 import indexReducer from './src/service/index'
-import reducer from './src/service/FetchService/reducer'
+import ThemeProvider from './src/pages/ThemeProvider'
 import thunk from "redux-thunk";
 
 const store = createStore(
@@ -11,12 +10,12 @@ const store = createStore(
     applyMiddleware(thunk)
   );
 
-  export default class App1 extends Component{
+  export default class App extends Component{
    
     render(){
         return(
             <Provider  store={store}>
-                <Start/>
+                <ThemeProvider/>
             </Provider>
         )
     }

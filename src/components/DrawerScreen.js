@@ -3,12 +3,14 @@ import { Text, View , StyleSheet , Image , Dimensions , FlatList , TouchableHigh
 import data from '../components/SectionData'
 import{connect} from 'react-redux'
 import{ setType} from '../service/FetchService/action'
+import {ThemeContext} from './ThemeContext'
 
 const dim = Dimensions.get('window').height
 class DrawerScreen extends Component {
   render () {
+    let theme = this.context
     return (
-      <View style = {styles.container}>
+      <View style = {[styles.container , {backgroundColor: theme.drawerColor}]}>
         <View style = {styles.headerStyle}>
             <View style = {styles.headerContainer}>
                 <View style = {styles.componentStle}>
@@ -35,7 +37,7 @@ class DrawerScreen extends Component {
                     <Image source = {item.image}
                     style = {styles.itemImage}
                     />
-                    <Text style = {styles.textStyle}>{item.name}</Text>
+                    <Text style = {[styles.textStyle , {color : theme.drawerFontColor}]}>{item.name}</Text>
                 </View>
             </TouchableHighlight>
          ) }
@@ -57,7 +59,7 @@ class DrawerScreen extends Component {
                 <Image source = {require('../assests/settings.png')}
                 style = {styles.itemImage}
                 />
-                <Text style = {styles.textStyle}>settings</Text>
+                <Text style = {[styles.textStyle , {color : theme.drawerFontColor}]}>Settings</Text>
             </View>
           </TouchableHighlight>
         </View>
@@ -67,6 +69,7 @@ class DrawerScreen extends Component {
 }
 
 export default connect( null ,{ setType})(DrawerScreen)
+DrawerScreen.contextType = ThemeContext;
 
 const styles = StyleSheet.create({
   container: {

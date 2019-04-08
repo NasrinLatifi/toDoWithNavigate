@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {Text, StyleSheet, Image, TouchableOpacity , View , TextInput}  from 'react-native';
 import{connect} from 'react-redux'
 import{ editTask , setType} from '../service/FetchService/action'
+import {ThemeContext} from '../components/ThemeContext'
+
 
  class EditPage extends Component{
     constructor (props) {
@@ -105,9 +107,10 @@ import{ editTask , setType} from '../service/FetchService/action'
    
     render(){
         const type = this.state.item.type
+        let theme = this.context
         return(
 
-            <View style = {styles.container}>
+          <View style = {[styles.container , {backgroundColor: theme.backgroundColor}]}>
                 <View  style= {styles.inputContainer}>
                     <TextInput
                      value = {this.state.text}
@@ -141,7 +144,7 @@ const mapStateToProps=(state)=>{
 
 
 export default connect(mapStateToProps ,{ editTask , setType})(EditPage)
-
+EditPage.contextType = ThemeContext;
 const styles = StyleSheet.create({
     container : {
         flex : 1,

@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {Text, StyleSheet, Image, TouchableOpacity ,  View , FlatList , TextInput , Animated }  from 'react-native';
 import{connect} from 'react-redux';
 import{ setSearchItem , setType , setRemoveItem , setItem} from '../service/FetchService/action';
+import {ThemeContext} from '../components/ThemeContext'
+
 
 class Main extends Component {
   
@@ -93,9 +95,9 @@ class Main extends Component {
     }; 
 }
   render(){
-    
+    let theme = this.context
       return(
-          <View style = {styles.container}>
+        <View style = {[styles.container , {backgroundColor: theme.backgroundColor}]}>
               
                 <View style = {styles.bodyStyle}>
                   <Animated.FlatList
@@ -152,6 +154,7 @@ const mapStateToProps=(state)=>{
 
 export default connect(mapStateToProps ,{setSearchItem , setType , setRemoveItem , setItem})(Main)
 
+Main.contextType = ThemeContext;
 
 const styles = StyleSheet.create({
     container: {
