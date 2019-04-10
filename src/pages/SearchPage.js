@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {Text, StyleSheet, Image, TouchableOpacity ,  View , FlatList , TextInput , Animated }  from 'react-native';
 import{connect} from 'react-redux';
-import{ setSearchItem , setType , setRemoveItem , setItem} from '../service/FetchService/action';
+import{ setSearchItem , setType , setRemoveItem , setItem , setStep} from '../service/FetchService/action';
 import {ThemeContext} from '../components/ThemeContext'
-
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 class Main extends Component {
   
@@ -45,11 +45,11 @@ class Main extends Component {
 
 
   componentWillMount(){
-    // this.props.setType(this.props.type)
     const name = this.props.type;
+    const step = this.props.step;
     const prps = this.props;
     const stt = this.state;
-    this.props.navigation.setParams({name ,prps , stt});
+    this.props.navigation.setParams({name , step ,prps , stt});
   }
 
   static navigationOptions = ({ navigation }) => {
@@ -70,7 +70,8 @@ class Main extends Component {
           style = {styles.backButton}
           onPress = {() => {
             navigation.goBack(),
-            params.prps.setType (params.name)
+            params.prps.setType (params.name),
+            params.prps.setStep (params.step)
             }}>
             <Image 
             style = {styles.backImage}
@@ -83,6 +84,7 @@ class Main extends Component {
               placeholder = "Search"
               onChangeText = { (input) => {
                 params.prps.setType(params.name)
+                params.prps.setStep(params.step)
                 params.prps.setSearchItem(input)
               
                 
@@ -100,35 +102,75 @@ class Main extends Component {
         <View style = {[styles.container , {backgroundColor: theme.backgroundColor}]}>
               
                 <View style = {styles.bodyStyle}>
-                  <Animated.FlatList
-                    style = {styles.flatStyle }
-                    data = {this.props.selectedItem}
-                    keyExtractor = {item => item.id.toString()}
-                    renderItem ={ ({item , index})  => 
-                      <View style = {[styles.itemContainer , { borderLeftColor : this.chooseColor(item.type) }]}>
-                        <TouchableOpacity style = {styles.textBodyContainer}
-                        onPress = {() => this.showFullText(item)}>
+                <FlatList
+                      style = {styles.flatStyle}
+                      data = {this.props.stepList}
+                      extraData={theme}
+                      keyExtractor = {item => item.id.toString()}
+                      renderItem ={ ({item , index})  => 
+                        <View style = {[styles.itemContainer , { backgroundColor : theme.itemColor, borderLeftColor : this.chooseColor(item.type)}]}>
 
-                          <View style = {[styles.roundStyle , { backgroundColor : this.chooseColor(item.type)}]} />
-                          <Text style = {styles.textBody} >{item.text.slice(0,25)}{item.text.length>25 && "..." }</Text>
-                        </TouchableOpacity>  
-                        <View style = {styles.bottomContainer}>
-                            <TouchableOpacity style = {[styles.buttonTempStyle , {borderColor : this.chooseColor(item.type) }]}>
-                              <Image source = {require('../assests/edit.png')}
-                              style = {styles.imageButtonStyle}/>
-                            </TouchableOpacity>
-                            <View style = {[styles.buttonTempStyle , {borderColor : this.chooseColor(item.type) }] }>
-                              <TouchableOpacity 
-                              onPress ={() => this.props.setRemoveItem(item.id)}>
-                                <Image source = {require('../assests/delete-button.png')}
-                                style = {styles.imageButtonStyle}/>
-                              </TouchableOpacity>
-                            </View>
-                        
+                         <View style = {[styles.bottomContainer , styles.justPadding]}>
+                            <TouchableOpacity style = {styles.textBodyContainer}
+                            onPress = {() => this.showFullText(item)}>
+
+                              <View style = {[styles.roundStyle , {borderColor : theme.backgroundColor , backgroundColor : this.chooseColor(item.type)}]} />
+                              <Text style = {[styles.textBody , {color : theme.fontColor}]} ellipsizeMode='middle' numberOfLines={1} >{item.text}</Text>
+                            </TouchableOpacity>  
+                          </View>
+
+                          {
+                           ( this.props.step === 'None') &&
+                          <View style = {styles.bottomContainer}>
+
+                                 <TouchableOpacity 
+                                  style = {[styles.buttonTempStyle , { backgroundColor : theme.redButton ,borderColor :theme.fontColor}]}
+                                  onPress ={() => this.props.setRemoveItem(item.id)}>
+                                  <Icon name="trash" class="fas fa-coffee fa-sm" size={23} color={theme.iconColor} />
+                                  
+                                </TouchableOpacity>
+                                <TouchableOpacity style = {[styles.buttonTempStyle , { backgroundColor : theme.blueButton ,borderColor :theme.fontColor}]}
+                                 onPress ={() => this.props.navigation.navigate("Edit" ,{"item" : item})}
+                                 >
+                                  <Icon name="edit" class="fas fa-coffee fa-sm" size={23} color={theme.iconColor} />
+                                </TouchableOpacity>
+                                <TouchableOpacity 
+                                style = {[styles.buttonTempStyle , { backgroundColor : theme.redButton , borderColor :theme.fontColor}]}
+                                // onPress ={() => this.props.setRemoveItem(item.id)}
+                                >
+                                <Icon name="close" class="fas fa-coffee fa-sm" size={23} color={theme.iconColor} />
+                                </TouchableOpacity>
+
+                                <TouchableOpacity 
+                                style = {[styles.buttonTempStyle , { backgroundColor : theme.blueButton , borderColor :theme.fontColor}]}
+                                // onPress ={() => this.props.setRemoveItem(item.id)}
+                                >
+                                <Icon name="check" class="fas fa-coffee fa-sm" size={23} color={theme.iconColor} />
+                                </TouchableOpacity>
+                              
+                          </View>
+                        }
+
+{
+                           !(this.props.step === 'None') &&
+                          <View style = {styles.bottomContainer}>
+
+                                 <TouchableOpacity 
+                                  style = {[styles.buttonTempStyle , { backgroundColor : theme.redButton ,borderColor :theme.fontColor}]}
+                                  onPress ={() => this.props.setRemoveItem(item.id)}>
+                                  <Icon name="trash" class="fas fa-coffee fa-sm" size={23} color={theme.iconColor} />
+                                  
+                                </TouchableOpacity>
+                                <TouchableOpacity style = {[styles.buttonTempStyle , { backgroundColor : theme.blueButton ,borderColor :theme.fontColor}]}
+                                 onPress ={() => this.props.navigation.navigate("Edit" ,{"item" : item})}
+                                 >
+                                  <Icon name="edit" class="fas fa-coffee fa-sm" size={23} color={theme.iconColor} />
+                                </TouchableOpacity>
+                          </View>
+                        }
+
                         </View>
-
-                      </View>
-                      }   />
+                        }   />
                     <TouchableOpacity 
                     style = {styles.addStyle}
                     onPress ={() => this.props.navigation.navigate("Add" ,{"name" : this.props.type})}
@@ -147,12 +189,13 @@ class Main extends Component {
 
 const mapStateToProps=(state)=>{
   return{
-    selectedItem : state.fetchReducer.selectedItem,
+    stepList : state.fetchReducer.selectedItem,
     type : state.fetchReducer.type,
+    step :state.fetchReducer.step,
   }
 }
 
-export default connect(mapStateToProps ,{setSearchItem , setType , setRemoveItem , setItem})(Main)
+export default connect(mapStateToProps ,{setSearchItem , setType , setRemoveItem , setItem , setStep})(Main)
 
 Main.contextType = ThemeContext;
 

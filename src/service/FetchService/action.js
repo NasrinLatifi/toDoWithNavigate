@@ -1,4 +1,4 @@
-import {EDIT_TASK , CHECK_LOGIN , FETCH_USERS_BEGIN ,FETCH_USERS_SUCCESS , FETCH_USERS_FAILURE, SEARCH_ITEM , SET_TYPE , SET_ITEM , REMOVE_ITEM , FETCH_PRODUCTS_BEGIN , FETCH_PRODUCTS_SUCCESS , FETCH_PRODUCTS_FAILURE} from "./type";
+import {SET_STEP , EDIT_TASK , CHECK_LOGIN , CHANGE_STEP  , SEARCH_ITEM , SET_TYPE , SET_ITEM , REMOVE_ITEM , FETCH_PRODUCTS_BEGIN , FETCH_PRODUCTS_SUCCESS , FETCH_PRODUCTS_FAILURE} from "./type";
 
 
 const setItemAction = (obj) => {
@@ -22,6 +22,16 @@ const setRemoveItemAction = (id)  => {
    }
  }
 
+
+ const setStepAction = stepName => {
+  
+  return {
+    type : SET_STEP,
+    payload : stepName
+  }
+}
+
+
  const fetchProductsBegin = () => ({
     type: FETCH_PRODUCTS_BEGIN
   });
@@ -42,6 +52,15 @@ const setRemoveItemAction = (id)  => {
         item : item
     }
   }
+
+  const editStepAction = (id, step , item ) => {
+    return{
+        type : CHANGE_STEP,
+        payload : id,
+        step : step,
+        item : item
+    }
+  }
   
  
    const fetchProductsFailure = error => ({
@@ -58,23 +77,6 @@ const setRemoveItemAction = (id)  => {
     }
 }
 
-
-const fetchUsersSuccess = (users) => {
-  return {
-    type: FETCH_USERS_SUCCESS,
-    payload:  users 
-  }
-}
-
-
-const fetchUsersFailure = error => ({
-type: FETCH_USERS_FAILURE,
-payload:  error 
-});
-
-const fetchUsersBegin = () => ({
-type: FETCH_USERS_BEGIN
-});
 
 const checkLoginAction = (obj) => ({
   type: CHECK_LOGIN,
@@ -98,7 +100,8 @@ export const setItem = (text , type ) => {
       let data = {
           "text": text,
           "type": type,
-          "date" : now.toLocaleDateString()+" "+now.toLocaleTimeString()
+          "date" : now.toLocaleDateString()+" "+now.toLocaleTimeString(),
+          "step" : "None",
       };
       fetch(`http://10.0.2.2:3000/tasks`,
           {
@@ -144,6 +147,9 @@ export const setType = type =>{
   return setTypeAction (type)
 }
 
+export const setStep = stepName =>{
+  return setStepAction (stepName)
+}
 
 // get items
 export const fetchProducts = () => {
@@ -184,7 +190,33 @@ export const editTask = (id , text , item) => {
       )
           .then(response => response.json())
           .then(data => {
-              dispatch(editAction(id , text , item))
+              dispatch(editAction(id ,text , item))
+          })
+  }
+};
+
+
+
+export const editStep = (id , step , item ) => {
+  return dispatch => {
+     
+      let data = {
+          "step": step
+      };
+      const url = `http://10.0.2.2:3000/tasks/`;
+      fetch(`${url}${id}/?text=${step}`,
+          {
+              method: 'PATCH',
+              headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(data)
+          }
+      )
+          .then(response => response.json())
+          .then(data => {
+              dispatch(editStepAction(id , step , item))
           })
   }
 };

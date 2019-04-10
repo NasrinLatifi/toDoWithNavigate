@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import {Text, StyleSheet, Image, TouchableOpacity , Alert , View , FlatList , Animated , TextInput}  from 'react-native';
 import{connect} from 'react-redux';
-import{ setSearchItem , setType , setRemoveItem , setItem} from '../service/FetchService/action';
+import{ setSearchItem , setType , setRemoveItem , setItem , setStep , editStep} from '../service/FetchService/action';
 import {ThemeContext} from '../components/ThemeContext'
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 class Main extends Component {
   
   constructor (props) {
@@ -12,7 +14,7 @@ class Main extends Component {
       opacityValue : new Animated.Value(0),
       text : '',
       color : '#303451',
-      name : 'Alaki',
+      name : '',
     }
   }
   
@@ -37,6 +39,7 @@ class Main extends Component {
   }
 
   componentDidMount (){
+    this.props.setStep('None')
     this.spin()
     this.opacity()
   }
@@ -71,6 +74,7 @@ class Main extends Component {
 
   componentWillMount(){
     this.props.setType(this.props.type)
+    this.props.setStep('None')
     const name = this.props.type;
     this.props.navigation.setParams({name});
   }
@@ -148,7 +152,7 @@ class Main extends Component {
                   <View style = {styles.bodyStyle}>
                     <FlatList
                       style = {styles.flatStyle}
-                      data = {this.props.selectedItem}
+                      data = {this.props.stepList}
                       extraData={theme}
                       keyExtractor = {item => item.id.toString()}
                       renderItem ={ ({item , index})  => 
@@ -164,20 +168,33 @@ class Main extends Component {
                           </View>
 
                           <View style = {styles.bottomContainer}>
-                                <TouchableOpacity style = {styles.buttonTempStyle}
+
+                                 <TouchableOpacity 
+                                  style = {[styles.buttonTempStyle , { backgroundColor : theme.redButton ,borderColor :theme.fontColor}]}
+                                  onPress ={() => this.props.setRemoveItem(item.id)}>
+                                  <Icon name="trash" class="fas fa-coffee fa-sm" size={23} color={theme.iconColor} />
+                                  
+                                </TouchableOpacity>
+                                <TouchableOpacity style = {[styles.buttonTempStyle , { backgroundColor : theme.blueButton ,borderColor :theme.fontColor}]}
                                  onPress ={() => this.props.navigation.navigate("Edit" ,{"item" : item})}
                                  >
-                                  <Image source = {require('../assests/edit.png')}
-                                  style = {[styles.imageButtonStyle , { borderColor :theme.fontColor}]}/>
-                                  <Text style = {[styles.iconText , {color : theme.fontColor}]}>Edit</Text>
+                                  <Icon name="edit" class="fas fa-coffee fa-sm" size={23} color={theme.iconColor} />
                                 </TouchableOpacity>
                               
+                                
+                                
                                 <TouchableOpacity 
-                                style = {[styles.buttonTempStyle , { borderColor :theme.fontColor}]}
-                                onPress ={() => this.props.setRemoveItem(item.id)}>
-                                  <Image source = {require('../assests/delete-button.png')}
-                                  style = {styles.imageButtonStyle}/>
-                                  <Text  style = {[styles.iconText , {color : theme.fontColor}]}>Delete</Text>
+                                style = {[styles.buttonTempStyle , { backgroundColor : theme.redButton , borderColor :theme.fontColor}]}
+                                onPress ={() => this.props.editStep(item.id , 'Close' , item)}
+                                >
+                                <Icon name="close" class="fas fa-coffee fa-sm" size={23} color={theme.iconColor} />
+                                </TouchableOpacity>
+
+                                <TouchableOpacity 
+                                style = {[styles.buttonTempStyle , { backgroundColor : theme.blueButton , borderColor :theme.fontColor}]}
+                                onPress ={() => this.props.editStep(item.id , 'Done' , item)}
+                                >
+                                <Icon name="check" class="fas fa-coffee fa-sm" size={23} color={theme.iconColor} />
                                 </TouchableOpacity>
                               
                           
@@ -186,30 +203,30 @@ class Main extends Component {
                         </View>
                         }   />
                       <TouchableOpacity 
-                      style = {styles.addStyle}
                       onPress ={() => this.props.navigation.navigate("Add" ,{"name" : this.props.type})}
                         style = {styles.addStyle}>
-                          <Image 
-                          style = {styles.addImageStyle}
-                          source = {require('../assests/plus.png')}/>
+                          <Icon name="plus-circle" class="fas fa-coffee fa-2x" size={70} color={theme.redButton} />
                         </TouchableOpacity>
                       
                   </View>
                 }
+                
             </Animated.View>
+            
         )
     }
 }
 
 const mapStateToProps=(state)=>{
   return{
-    selectedItem : state.fetchReducer.selectedItem,
+    stepList : state.fetchReducer.stepList,
     loading : state.fetchReducer.loading,
     type : state.fetchReducer.type,
   }
 }
 
-export default connect(mapStateToProps ,{setSearchItem , setType , setRemoveItem , setItem})(Main)
+
+export default connect(mapStateToProps ,{setSearchItem , setType , setRemoveItem , setItem , setStep , editStep})(Main)
 
 Main.contextType = ThemeContext;
 
@@ -226,8 +243,8 @@ const styles = StyleSheet.create({
       alignItems : 'center',
       justifyContent : 'center',
       position : 'absolute',
-      right:15,
-      bottom:40,
+      right:10,
+      bottom:50,
       zIndex : 1
     }, 
     addImageStyle : {
@@ -276,12 +293,6 @@ const styles = StyleSheet.create({
       height : 40,
       borderRadius : 20,
     },
-    iconText :{
-      color : '#707070',
-      marginLeft : 5 ,
-      fontSize : 15,
-      fontFamily : 'sans-serif-medium'
-    },
     drawerBottonRight :{
       marginRight : 15,
     },
@@ -299,7 +310,6 @@ const styles = StyleSheet.create({
     },
     itemContainer :{
       borderRadius : 10 ,
-      // height : 120,
       flex :1 ,
       paddingHorizontal : 20,
       justifyContent : 'space-between',
@@ -309,7 +319,6 @@ const styles = StyleSheet.create({
       marginLeft : 25,
       marginRight : 25,
       borderLeftWidth : 10 ,
-      // borderBottomWidth : 3,
       elevation :3,
     },
     bottomContainer :{
@@ -318,10 +327,6 @@ const styles = StyleSheet.create({
         paddingVertical : 5,
         alignItems : 'center',
         justifyContent : 'center',
-    },
-    imageButtonStyle : {
-      width : 23,
-      height : 23,
     },
     textBodyContainer : {
       flexDirection: 'row', 
@@ -347,7 +352,7 @@ const styles = StyleSheet.create({
     },
     buttonTempStyle :{
       borderColor : '#707070',
-      width : 90,
+      width : 55,
       height : 40,
       alignItems : 'center',
       justifyContent : 'center',

@@ -4,6 +4,7 @@ import data from '../components/SectionData'
 import{connect} from 'react-redux'
 import{ setType} from '../service/FetchService/action'
 import {ThemeContext} from './ThemeContext'
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const dim = Dimensions.get('window').height
 class DrawerScreen extends Component {
@@ -24,7 +25,7 @@ class DrawerScreen extends Component {
         </View>
 
         <FlatList
-          style ={{height : dim * (7/10)}}
+          style ={{height : dim * (6/11)}}
          data = {data}
          keyExtractor={item => item.name}
          renderItem={({item}) =>( 
@@ -34,9 +35,10 @@ class DrawerScreen extends Component {
                   this.props.navigation.navigate(item.name , {name : item.name} )
                   }}>
                 <View style = {styles.itemView}>
-                    <Image source = {item.image}
-                    style = {styles.itemImage}
-                    />
+                    <View
+                    style = {styles.itemImage}>
+                    <Icon name={item.iconName} class="fas fa-coffee fa-sm" size={28} color={theme.drawerIcon} />
+                    </View>
                     <Text style = {[styles.textStyle , {color : theme.drawerFontColor}]}>{item.name}</Text>
                 </View>
             </TouchableHighlight>
@@ -44,21 +46,37 @@ class DrawerScreen extends Component {
         />
         <View style = {styles.borderStyle}></View>
         <View style = {styles.endStyle}>
-          {/* <TouchableHighlight style = {styles.itemStyle}
-          onPress = {() => this.props.navigation.navigate('Edit' , {name : 'Edit'} )}>
+
+          <TouchableHighlight style = {styles.itemStyle}
+          onPress = {() => this.props.navigation.navigate('Finish')}>
             <View style = {styles.itemView}>
-                <Image source = {require('../assests/writing.png')}
-                style = {styles.itemImage}
-                />
-                <Text style = {styles.textStyle}>Edit Task List</Text>
-            </View>    
-          </TouchableHighlight> */}
+                <View
+                    style = {styles.itemImage}>
+                    <Icon name="check" class="fas fa-coffee fa-sm" size={28} color={theme.drawerIcon} />
+                  </View>
+                <Text style = {[styles.textStyle , {color : theme.drawerFontColor}]}>Finish Tasks</Text>
+            </View>
+          </TouchableHighlight>
+
+          <TouchableHighlight style = {styles.itemStyle}
+          onPress = {() => this.props.navigation.navigate('Forgotten')}>
+            <View style = {styles.itemView}>
+                <View
+                    style = {styles.itemImage}>
+                    <Icon name="close" class="fas fa-coffee fa-sm" size={28} color={theme.drawerIcon} />
+                  </View>
+                <Text style = {[styles.textStyle , {color : theme.drawerFontColor}]}>Forgotten Tasks</Text>
+            </View>
+          </TouchableHighlight>
+          
+
           <TouchableHighlight style = {styles.itemStyle}
           onPress = {() => this.props.navigation.navigate('Settings' , {name : 'Settings'})}>
             <View style = {styles.itemView}>
-                <Image source = {require('../assests/settings.png')}
-                style = {styles.itemImage}
-                />
+                <View
+                    style = {styles.itemImage}>
+                    <Icon name="wrench" class="fas fa-coffee fa-sm" size={28} color={theme.drawerIcon} />
+                  </View>
                 <Text style = {[styles.textStyle , {color : theme.drawerFontColor}]}>Settings</Text>
             </View>
           </TouchableHighlight>
@@ -88,7 +106,7 @@ const styles = StyleSheet.create({
   },
   headerStyle : {
       // height : 130,
-      height : dim * (2/10),
+      height : dim * (2/11),
       alignItems: 'center',
       backgroundColor: '#424770',
   }, 
@@ -113,7 +131,7 @@ const styles = StyleSheet.create({
   itemStyle :{
     // marginTop: 22,
     // height : 37 ,
-    height : dim * (1/10),
+    height : dim * (1/11),
     flexDirection :'row',
     alignItems: 'center',
 
@@ -144,7 +162,7 @@ const styles = StyleSheet.create({
     fontFamily : 'sans-serif-medium'
   },
   endStyle :{
-    height : dim * (1/10),
+    height : dim * (3/11),
     marginBottom : 20,
   },
 });

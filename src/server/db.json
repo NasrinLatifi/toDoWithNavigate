@@ -4,145 +4,211 @@
       "text": "buy some happines",
       "type": "Wish",
       "date": "1552540567564",
+      "step": "Done",
       "id": 29
     },
     {
-      "text": "dd AYA ?",
-      "type": "All",
+      "text": "dd AYA  bordim? hehe",
+      "type": "Study",
       "date": "09:37:59",
+      "step": "Close",
       "id": 31
     },
     {
-      "text": "Raannaaaa zolfaghariiiiiiiiiiiiii",
-      "type": "All",
+      "text": "Raanaa",
+      "type": "Family",
       "date": "03/14/1909:41:00",
+      "step": "Done",
       "id": 32
     },
     {
       "text": "Nasrinnn",
       "type": "All",
       "date": "03/14/19 09:41:49",
+      "step": "Done",
       "id": 33
     },
     {
       "text": "dead line",
       "type": "Work",
       "date": "03/16/19 10:18:03",
+      "step": "Close",
       "id": 35
     },
     {
       "text": "NLP's PRJ",
       "type": "Study",
       "date": "03/16/19 10:18:58",
+      "step": "Done",
       "id": 36
     },
     {
       "text": "Happy holyDays",
       "type": "Wish",
       "date": "03/16/19 10:20:21",
+      "step": "Done",
       "id": 37
-    },
-    {
-      "text": "alaki",
-      "type": "Family",
-      "date": "03/16/19 10:23:06",
-      "id": 38
     },
     {
       "text": "hello",
       "type": "Wish",
       "date": "03/16/19 10:24:03",
+      "step": "Close",
       "id": 39
     },
     {
       "text": "ML home works",
       "type": "Study",
       "date": "03/16/19 10:25:48",
+      "step": "Done",
       "id": 40
     },
     {
       "text": "ddd",
       "type": "Study",
       "date": "03/16/19 10:40:14",
+      "step": "None",
       "id": 42
     },
     {
       "text": "ff",
       "type": "Wish",
       "date": "03/16/19 10:46:35",
+      "step": "None",
       "id": 44
     },
     {
       "text": "ss",
       "type": "Wish",
       "date": "03/16/19 10:48:24",
+      "step": "None",
       "id": 46
     },
     {
       "text": "he he",
       "type": "Study",
       "date": "03/16/19 10:54:59",
+      "step": "None",
       "id": 47
     },
     {
-      "text": "machine",
+      "text": "tamir machine",
       "type": "Family",
       "date": "03/16/19 10:56:47",
+      "step": "None",
       "id": 48
     },
     {
       "text": "ss",
       "type": "All",
       "date": "03/16/19 12:42:21",
+      "step": "None",
       "id": 49
     },
     {
       "text": "www",
-      "type": "",
+      "type": "Wish",
       "date": "03/16/19 12:52:50",
+      "step": "None",
       "id": 50
     },
     {
       "text": "wwwww",
       "type": "All",
       "date": "03/16/19 13:21:58",
+      "step": "None",
       "id": 51
     },
     {
       "text": "4545",
       "type": "All",
       "date": "03/17/19 10:20:58",
+      "step": "None",
       "id": 52
     },
     {
       "text": "khande",
       "type": "Study",
       "date": "03/17/19 11:28:49",
+      "step": "Close",
       "id": 54
     },
     {
       "text": "eeee vaghean rast migi?",
       "type": "Work",
       "date": "03/17/19 11:29:10",
+      "step": "None",
       "id": 55
     },
     {
       "text": "hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh",
       "type": "All",
       "date": "03/17/19 14:46:47",
+      "step": "None",
       "id": 56
     },
     {
       "text": "sobh shanbe dars bkhon",
       "type": "Study",
       "date": "04/06/19 15:34:07",
+      "step": "None",
       "id": 57
     },
     {
       "text": "kharid lebasss nooooooooo",
       "type": "Wish",
       "date": "04/06/19 16:09:50",
+      "step": "None",
       "id": 58
+    },
+    {
+      "text": "farah",
+      "type": "All",
+      "date": "04/10/19 10:15:03",
+      "step": "None",
+      "id": 59
+    },
+    {
+      "text": "Nan bekharam =)",
+      "type": "Family",
+      "date": "04/10/19 14:09:42",
+      "step": "None",
+      "id": 60
+    },
+    {
+      "text": "gol bekharam",
+      "type": "Family",
+      "date": "04/10/19 14:12:04",
+      "step": "None",
+      "id": 61
+    },
+    {
+      "text": "bego naaaaaaaaa",
+      "type": "Wish",
+      "date": "04/10/19 14:12:29",
+      "step": "None",
+      "id": 62
+    },
+    {
+      "text": "mive y khob bekhar",
+      "type": "Family",
+      "date": "04/10/19 14:19:53",
+      "step": "None",
+      "id": 63
+    },
+    {
+      "text": "ghaza y khoshmaze bepaz",
+      "type": "Family",
+      "date": "04/10/19 14:25:19",
+      "step": "None",
+      "id": 64
+    },
+    {
+      "text": "start new project",
+      "type": "Work",
+      "date": "04/10/19 14:29:29",
+      "step": "None",
+      "id": 65
     }
   ]
 }

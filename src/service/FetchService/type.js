@@ -10,3 +10,5 @@ export const FETCH_USERS_SUCCESS = 'FETCH_USERS_SUCCESS';
 export const FETCH_USERS_FAILURE = 'FETCH_USERS_FAILURE';
 export const CHECK_LOGIN = 'CHECK_LOGIN'
 export const EDIT_TASK = 'EDIT_TASK'
+export const SET_STEP = 'SET_STEP'
+export const CHANGE_STEP = 'CHANGE_STEP'

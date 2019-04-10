@@ -4,6 +4,8 @@ import DrawerScreen from '../components/DrawerScreen'
 import Settings from '../pages/Settings'
 import AddPage from '../pages/AddPage'
 import Main from '../pages/Main'
+import MainDone from '../pages/MainDone'
+import MainClose from '../pages/MainClose'
 import Search from '../pages/SearchPage'
 import Edit from '../pages/EditPage'
 import StartPage from '../pages/StartPage'
@@ -29,6 +31,12 @@ const stackNavigate = createStackNavigator(
       Settings: {
         screen: Settings,
       },
+      Finish : {
+        screen: MainDone,
+      },
+      Forgotten : {
+        screen: MainClose,
+      }
     },
     
     {
@@ -65,6 +73,12 @@ const MyDrawerNavigator = createDrawerNavigator(
     Settings: {
       screen: stackNavigate,
     },
+    // Finish : {
+    //   screen: stackNavigate,
+    // },
+    // Forgotten : {
+    //   screen: stackNavigate,
+    // }
     // Add: {
     //   screen: AddPage,
     // },
@@ -124,12 +138,5 @@ const AppContainer = createAppContainer(Temp);
     }
   }
   export default connect(null,{fetchProducts })(App)
-
-
-
-
-
-
-
 
 

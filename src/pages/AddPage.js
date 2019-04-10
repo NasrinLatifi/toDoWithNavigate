@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {Text, StyleSheet, Image, TouchableOpacity , View , TextInput}  from 'react-native';
 import{connect} from 'react-redux'
-import{ setItem , setType} from '../service/FetchService/action'
+import{ setItem , setType ,setStep } from '../service/FetchService/action'
 import {ThemeContext} from '../components/ThemeContext'
-
+import Icon from 'react-native-vector-icons/FontAwesome';
 
  class AddPage extends Component{
     constructor (props) {
@@ -41,6 +41,7 @@ import {ThemeContext} from '../components/ThemeContext'
         if( this.state.text.length > 0 ){
           this.props.setItem (this.state.text , type),
           this.props.setType (type),
+          this.props.setStep('None'),
           navigation.goBack()
         }
        
@@ -72,6 +73,7 @@ import {ThemeContext} from '../components/ThemeContext'
             style = {styles.backButton}
             onPress = {() => {
               params.prps.setType (params.name),
+              params.props.setStep('None'),
               navigation.goBack()
               }}>
               <Image 
@@ -116,9 +118,7 @@ import {ThemeContext} from '../components/ThemeContext'
                       style = {styles.addStyle}
                       onPress ={this.pressButton.bind(this,navigation,type) }
                         style = {styles.addStyle}>
-                          <Image 
-                          style = {styles.addImageStyle}
-                          source = {require('../assests/done.png')}/>
+                         <Icon name="check-circle" class="fas fa-coffee fa-2x" size={70} color={theme.redButton} />
                 </TouchableOpacity>
                 {/* </View> */}
 
@@ -135,7 +135,7 @@ const mapStateToProps=(state)=>{
 }
 
 
-export default connect(mapStateToProps ,{ setItem , setType})(AddPage)
+export default connect(mapStateToProps ,{ setItem , setType , setStep})(AddPage)
 AddPage.contextType = ThemeContext;
 const styles = StyleSheet.create({
     container : {
@@ -143,15 +143,15 @@ const styles = StyleSheet.create({
         backgroundColor : '#E8EAED',  
     },
     addStyle : {
-        backgroundColor:'#771327',
+        backgroundColor:'#ffffff',
         width : 60,
         height :60,
         borderRadius : 50,
         alignItems : 'center',
         justifyContent : 'center',
         position : 'absolute',
-        right:15,
-        bottom:40,
+        right:10,
+        bottom:50,
         zIndex : 1
       }, 
       backButton :{
