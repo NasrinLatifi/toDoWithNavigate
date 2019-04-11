@@ -189,7 +189,7 @@ class Main extends Component {
 
 const mapStateToProps=(state)=>{
   return{
-    stepList : state.fetchReducer.selectedItem,
+    stepList : state.fetchReducer.stepList,
     type : state.fetchReducer.type,
     step :state.fetchReducer.step,
   }
