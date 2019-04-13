@@ -56,7 +56,7 @@ function reducer(state = initialState, action) {
         case REMOVE_ITEM:
             const index = state.items.findIndex(({ id }) => id == action.payload );
             const indexSelected = state.selectedItem.findIndex(({ id }) => id == action.payload );
-            const indexSelectedstep = state.selectedItem.findIndex(({ id }) => id == action.payload );
+            const indexSelectedstep = state.stepList.findIndex(({ id }) => id == action.payload );
             return {
                 ...state,
                 items : [

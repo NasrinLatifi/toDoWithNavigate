@@ -172,7 +172,7 @@ class Main extends Component {
 
                           <View style = {styles.bottomContainer}>
 
-                                 <TouchableOpacity 
+                                 {/* <TouchableOpacity 
                                   style = {[styles.buttonTempStyle , { backgroundColor : theme.redButton ,borderColor :theme.fontColor}]}
                                   onPress ={() => this.props.setRemoveItem(item.id)}>
                                   <Icon name="trash" class="fas fa-coffee fa-sm" size={23} color={theme.iconColor} />
@@ -183,7 +183,7 @@ class Main extends Component {
                                  >
                                   <Icon name="edit" class="fas fa-coffee fa-sm" size={23} color={theme.iconColor} />
                                 </TouchableOpacity>
-                              
+                               */}
                                 
                                 
                                 <TouchableOpacity 
@@ -205,13 +205,13 @@ class Main extends Component {
 
                         </View>
                         } 
-                        renderHiddenItem={ (data, rowMap) => (
-                          <Animated.View style={[styles.rowBack , {opacity}]}>
-                              
-                              
+                        renderHiddenItem={ (data, row) => {
+                          // console.log(row, data);
+                         return( <Animated.View style={[styles.rowBack , {opacity}]}>
                                 <View style = {[styles.editBack ,  { backgroundColor : theme.blueButton}]}>
                                 <TouchableOpacity 
-                                //  onPress ={() => this.props.navigation.navigate("Edit" ,{"item" : item})}
+                                style = {[styles.editBack ,  {  padding : 35 , backgroundColor : theme.blueButton}]}
+                                  onPress ={() => this.props.navigation.navigate("Edit" ,{"item" : data.item})}
                                  >
                                   <Icon name="edit" class="fas fa-coffee fa-sm" size={23} color={theme.iconColor} />
                                  
@@ -220,15 +220,17 @@ class Main extends Component {
                                 </View>
                                 <View style = {[styles.deleteBack , {backgroundColor : theme.redButton}]}>
                                   <TouchableOpacity 
-                                    // onPress ={() => this.props.setRemoveItem(item.id)}
+                                  style = {[styles.deleteBack , {backgroundColor : theme.redButton}]}
+                                    onPress ={() =>
+                                      this.props.setRemoveItem(data.item.id)}
                                     >
                                      <Icon name="trash" class="fas fa-coffee fa-sm" size={23} color={theme.iconColor} /> 
                                   </TouchableOpacity>
                                 
                                 </View>
                               
-                          </Animated.View>
-                         )}
+                          </Animated.View>)
+                         }}
                         rightOpenValue={-200}
                         disableRightSwipe 
                         closeOnRowPress
@@ -276,7 +278,7 @@ const styles = StyleSheet.create({
     },
     editBack :{
       alignItems: 'flex-end',
-      padding : 35,
+     
       justifyContent : 'center',
       width : dim.width - 200 ,
       height : 100,
