@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
-import {Text, StyleSheet, Image, TouchableOpacity , Alert , View , FlatList , Animated , TextInput}  from 'react-native';
+import {Text, StyleSheet, Image, TouchableOpacity , Alert , View , FlatList , Animated , Dimensions}  from 'react-native';
 import{connect} from 'react-redux';
 import{ setSearchItem , setType , setRemoveItem , setItem , setStep , editStep} from '../service/FetchService/action';
 import {ThemeContext} from '../components/ThemeContext'
 import Icon from 'react-native-vector-icons/FontAwesome';
-
+import { SwipeListView , SwipeRow } from 'react-native-swipe-list-view';
+const dim = Dimensions.get('window')
 class Main extends Component {
   
   constructor (props) {
@@ -136,7 +137,7 @@ class Main extends Component {
             outputRange: ['0deg', '360deg']
         })
         return(
-            <Animated.View style = {[styles.container , {backgroundColor: theme.backgroundColor , opacity}]}>
+            <Animated.View style = {[styles.container , {backgroundColor: theme.backgroundColor}]}>
              
                 {
                   this.props.loading && 
@@ -150,12 +151,14 @@ class Main extends Component {
                 {
                   !this.props.loading &&  
                   <View style = {styles.bodyStyle}>
-                    <FlatList
+                    <SwipeListView
+                      useFlatList
                       style = {styles.flatStyle}
                       data = {this.props.stepList}
                       extraData={theme}
                       keyExtractor = {item => item.id.toString()}
                       renderItem ={ ({item , index})  => 
+                      
                         <View style = {[styles.itemContainer , { backgroundColor : theme.itemColor, borderLeftColor : this.chooseColor(item.type)}]}>
 
                          <View style = {[styles.bottomContainer , styles.justPadding]}>
@@ -201,7 +204,35 @@ class Main extends Component {
                           </View>
 
                         </View>
-                        }   />
+                        } 
+                        renderHiddenItem={ (data, rowMap) => (
+                          <Animated.View style={[styles.rowBack , {opacity}]}>
+                              
+                              
+                                <View style = {[styles.editBack ,  { backgroundColor : theme.blueButton}]}>
+                                <TouchableOpacity 
+                                //  onPress ={() => this.props.navigation.navigate("Edit" ,{"item" : item})}
+                                 >
+                                  <Icon name="edit" class="fas fa-coffee fa-sm" size={23} color={theme.iconColor} />
+                                 
+                                 </TouchableOpacity>
+                                
+                                </View>
+                                <View style = {[styles.deleteBack , {backgroundColor : theme.redButton}]}>
+                                  <TouchableOpacity 
+                                    // onPress ={() => this.props.setRemoveItem(item.id)}
+                                    >
+                                     <Icon name="trash" class="fas fa-coffee fa-sm" size={23} color={theme.iconColor} /> 
+                                  </TouchableOpacity>
+                                
+                                </View>
+                              
+                          </Animated.View>
+                         )}
+                        rightOpenValue={-200}
+                        disableRightSwipe 
+                        closeOnRowPress
+                        closeOnScroll/>
                       <TouchableOpacity 
                       onPress ={() => this.props.navigation.navigate("Add" ,{"name" : this.props.type})}
                         style = {styles.addStyle}>
@@ -234,6 +265,32 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor : '#E8EAED',  
+    },
+    rowBack: {
+      alignItems: 'center',
+      backgroundColor: '#DDD',
+      flex: 1,
+      flexDirection: 'row',
+      justifyContent: 'flex-end',
+      padding: 35,
+    },
+    editBack :{
+      alignItems: 'flex-end',
+      padding : 35,
+      justifyContent : 'center',
+      width : dim.width - 200 ,
+      height : 100,
+      borderRadius : 10,
+      backgroundColor : 'green'
+    },
+    deleteBack :{
+      justifyContent : 'center',
+      alignItems: 'center',
+      width : 100,
+      height : 60,
+      borderTopRightRadius : 10,
+      borderBottomRightRadius : 10,
+      backgroundColor : 'red'
     },
     addStyle : {
       backgroundColor:'white',
