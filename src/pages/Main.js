@@ -4,18 +4,21 @@ import{connect} from 'react-redux';
 import{ setSearchItem , setType , setRemoveItem , setItem , setStep , editStep} from '../service/FetchService/action';
 import {ThemeContext} from '../components/ThemeContext'
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Item from '../components/MainItem'
 import { SwipeListView , SwipeRow } from 'react-native-swipe-list-view';
 const dim = Dimensions.get('window')
 class Main extends Component {
   
   constructor (props) {
     super(props)
+    this.setScrollEnabled = this.setScrollEnabled.bind(this);
     this.state = {
       spinValue : new Animated.Value(0),
       opacityValue : new Animated.Value(0),
       text : '',
       color : '#303451',
       name : '',
+      enable: true,
     }
   }
   
@@ -126,6 +129,22 @@ class Main extends Component {
 
     }; 
 }
+
+setScrollEnabled(enable) {
+  this.setState({
+    enable,
+  });
+}
+
+renderItem(item) {
+  return (
+    <Item
+      item={item}
+      navigation = {this.props.navigation}
+      setScrollEnabled={enable => this.setScrollEnabled(enable)}
+    />
+  );
+}
     render(){
       const opacity = this.state.opacityValue.interpolate({
         inputRange: [0,  1],
@@ -151,90 +170,14 @@ class Main extends Component {
                 {
                   !this.props.loading &&  
                   <View style = {styles.bodyStyle}>
-                    <SwipeListView
-                      useFlatList
+                    <FlatList
                       style = {styles.flatStyle}
                       data = {this.props.stepList}
                       extraData={theme}
                       keyExtractor = {item => item.id.toString()}
-                      renderItem ={ ({item , index})  => 
-                      
-                        <View style = {[styles.itemContainer , { backgroundColor : theme.itemColor, borderLeftColor : this.chooseColor(item.type)}]}>
-
-                         <View style = {[styles.bottomContainer , styles.justPadding]}>
-                            <TouchableOpacity style = {styles.textBodyContainer}
-                            onPress = {() => this.showFullText(item)}>
-
-                              <View style = {[styles.roundStyle , {borderColor : theme.backgroundColor , backgroundColor : this.chooseColor(item.type)}]} />
-                              <Text style = {[styles.textBody , {color : theme.fontColor}]} ellipsizeMode='middle' numberOfLines={1} >{item.text}</Text>
-                            </TouchableOpacity>  
-                          </View>
-
-                          <View style = {styles.bottomContainer}>
-
-                                 {/* <TouchableOpacity 
-                                  style = {[styles.buttonTempStyle , { backgroundColor : theme.redButton ,borderColor :theme.fontColor}]}
-                                  onPress ={() => this.props.setRemoveItem(item.id)}>
-                                  <Icon name="trash" class="fas fa-coffee fa-sm" size={23} color={theme.iconColor} />
-                                  
-                                </TouchableOpacity>
-                                <TouchableOpacity style = {[styles.buttonTempStyle , { backgroundColor : theme.blueButton ,borderColor :theme.fontColor}]}
-                                 onPress ={() => this.props.navigation.navigate("Edit" ,{"item" : item})}
-                                 >
-                                  <Icon name="edit" class="fas fa-coffee fa-sm" size={23} color={theme.iconColor} />
-                                </TouchableOpacity>
-                               */}
-                                
-                                
-                                <TouchableOpacity 
-                                style = {[styles.buttonTempStyle , { backgroundColor : theme.redButton , borderColor :theme.fontColor}]}
-                                onPress ={() => this.props.editStep(item.id , 'Close' , item)}
-                                >
-                                <Icon name="close" class="fas fa-coffee fa-sm" size={23} color={theme.iconColor} />
-                                </TouchableOpacity>
-
-                                <TouchableOpacity 
-                                style = {[styles.buttonTempStyle , { backgroundColor : theme.blueButton , borderColor :theme.fontColor}]}
-                                onPress ={() => this.props.editStep(item.id , 'Done' , item)}
-                                >
-                                <Icon name="check" class="fas fa-coffee fa-sm" size={23} color={theme.iconColor} />
-                                </TouchableOpacity>
-                              
-                          
-                          </View>
-
-                        </View>
-                        } 
-                        renderHiddenItem={ (data, row) => {
-                          // console.log(row, data);
-                         return( <Animated.View style={[styles.rowBack , {opacity}]}>
-                                <View style = {[styles.editBack ,  { backgroundColor : theme.blueButton}]}>
-                                <TouchableOpacity 
-                                style = {[styles.editBack ,  {  padding : 35 , backgroundColor : theme.blueButton}]}
-                                  onPress ={() => this.props.navigation.navigate("Edit" ,{"item" : data.item})}
-                                 >
-                                  <Icon name="edit" class="fas fa-coffee fa-sm" size={23} color={theme.iconColor} />
-                                 
-                                 </TouchableOpacity>
-                                
-                                </View>
-                                <View style = {[styles.deleteBack , {backgroundColor : theme.redButton}]}>
-                                  <TouchableOpacity 
-                                  style = {[styles.deleteBack , {backgroundColor : theme.redButton}]}
-                                    onPress ={() =>
-                                      this.props.setRemoveItem(data.item.id)}
-                                    >
-                                     <Icon name="trash" class="fas fa-coffee fa-sm" size={23} color={theme.iconColor} /> 
-                                  </TouchableOpacity>
-                                
-                                </View>
-                              
-                          </Animated.View>)
-                         }}
-                        rightOpenValue={-200}
-                        disableRightSwipe 
-                        closeOnRowPress
-                        closeOnScroll/>
+                      renderItem={({item}) => this.renderItem(item)}
+                      scrollEnabled={this.state.enable}
+                      />
                       <TouchableOpacity 
                       onPress ={() => this.props.navigation.navigate("Add" ,{"name" : this.props.type})}
                         style = {styles.addStyle}>
@@ -364,64 +307,5 @@ const styles = StyleSheet.create({
       height : 100,
       width : 100,
     },
-    justPadding :{
-      paddingRight : 20
-    },
-    itemContainer :{
-      borderRadius : 10 ,
-      flex :1 ,
-      paddingHorizontal : 20,
-      justifyContent : 'space-between',
-      backgroundColor : '#F9F9F8',
-      marginTop : 10,
-      marginBottom : 10,
-      marginLeft : 25,
-      marginRight : 25,
-      borderLeftWidth : 10 ,
-      elevation :3,
-    },
-    bottomContainer :{
-      flexDirection: 'row', 
-        flex : 1,
-        paddingVertical : 5,
-        alignItems : 'center',
-        justifyContent : 'center',
-    },
-    textBodyContainer : {
-      flexDirection: 'row', 
-      flex :3,
-      paddingTop : 10,
-      marginBottom : 15,
-      alignItems : 'center',
-      
-    },
-    roundStyle :{
-      width :13,
-      height :13,
-      marginRight : 5,
-      borderRadius : 50, 
-      borderWidth : 2 ,
-    },
-    textBody : {
-      fontSize : 23,
-      fontWeight : '300',
-      color : '#707070',
-      //fontFamily: "vincHand",
-      fontFamily : 'sans-serif-medium',
-    },
-    buttonTempStyle :{
-      borderColor : '#707070',
-      width : 55,
-      height : 40,
-      alignItems : 'center',
-      justifyContent : 'center',
-      borderWidth : 1 , 
-      borderRadius : 10,
-      marginRight : 10,
-      marginLeft : 10,
-      marginBottom : 10,
-      flexDirection : 'row',
-      
-      // backgroundColor : '#E8EAED',
-    }
+
 })
