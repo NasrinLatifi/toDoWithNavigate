@@ -82,7 +82,7 @@ import {ThemeContext} from '../components/ThemeContext'
             <TouchableOpacity
             style = {styles.backButton}
             onPress = {() => {
-              params.prps.setType (params.name),
+              // params.prps.setType (params.name),
               navigation.goBack()
               }}>
               <Image 
