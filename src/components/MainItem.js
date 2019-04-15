@@ -4,8 +4,8 @@ import{ setSearchItem , setType , setRemoveItem , setItem , setStep , editStep} 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import{connect} from 'react-redux';
 import {ThemeContext} from '../components/ThemeContext'
-const {width} = Dimensions.get('window');
 
+const dim = Dimensions.get('window')
  class MainItem extends Component {
     constructor(props) {
         super(props);
@@ -21,14 +21,14 @@ const {width} = Dimensions.get('window');
             onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
             onStartShouldSetPanResponderCapture: (evt, gestureState) => false,
             onPanResponderMove: (evt, gestureState) => {
-            if (gestureState.dx > 35) {
+            if ( gestureState.dx < -35 ) {
             //   this.setScrollViewEnabled(false);
               let newX = gestureState.dx + this.gestureDelay;
               position.setValue({x: newX, y: 0});
             }
           },
           onPanResponderRelease: (evt, gestureState) => {
-            if (gestureState.dx < 150) {
+            if (gestureState.dx > -150) {
               Animated.timing(this.state.position, {
                 toValue: {x: 0, y: 0},
                 duration: 150,
@@ -38,7 +38,7 @@ const {width} = Dimensions.get('window');
               });
             } else {
               Animated.spring(this.state.position, {
-                toValue: {x: 100, y: 0},
+                toValue: {x: -180, y: 0},
                 damping : 10,
                 useNativeDriver: true
               }).start(() => {
@@ -92,11 +92,34 @@ const {width} = Dimensions.get('window');
     render(){
         const item = this.props.item;
         let theme = this.context;
-        
+        let handler = this.state.panResponder.panHandlers
         return(
-            <Animated.View style = {[styles.flatStyle ,  {transform: [{ translateX: this.state.position.x }, { translateY: this.state.position.y }]} ]} {...this.state.panResponder.panHandlers}>
-            
-                <View style = {[styles.itemContainer , { backgroundColor : theme.itemColor, borderLeftColor : this.chooseColor(item.type)}]} >
+            <View style = {styles.flatStyle} >
+
+                <View style = {styles.absoluteCell}>
+                    <View style = {[styles.editBack ,  { backgroundColor : theme.blueButton}]}>
+                        <TouchableOpacity 
+                            style = {[styles.editBack ,  {  padding : 35 , backgroundColor : theme.blueButton}]}
+                            onPress ={() => this.props.navigation.navigate("Edit" ,{"item" : item})}
+                            >
+                            <Icon name="edit" class="fas fa-coffee fa-sm" size={23} color={theme.iconColor} />
+                            
+                          </TouchableOpacity>
+                                    
+                        </View>
+                        <View style = {[styles.deleteBack , {backgroundColor : theme.redButton}]}>
+                            <TouchableOpacity 
+                                style = {[styles.deleteBack , {backgroundColor : theme.redButton}]}
+                                onPress ={() =>
+                                this.props.setRemoveItem(item.id)}
+                            >
+                                <Icon name="trash" class="fas fa-coffee fa-sm" size={23} color={theme.iconColor} /> 
+                            </TouchableOpacity>
+                        </View>
+                     </View>
+
+                <Animated.View style = {[styles.itemContainer , { transform: [{ translateX: this.state.position.x }, { translateY: this.state.position.y }] ,backgroundColor : theme.itemColor, borderLeftColor : this.chooseColor(item.type)}]} {...handler}>
+               
 
                 <View style = {[styles.bottomContainer , styles.justPadding]}>
                     <TouchableOpacity style = {styles.textBodyContainer}
@@ -108,20 +131,6 @@ const {width} = Dimensions.get('window');
                 </View>
 
                 <View style = {styles.bottomContainer}>
-
-                        <TouchableOpacity 
-                        style = {[styles.buttonTempStyle , { backgroundColor : theme.redButton ,borderColor :theme.fontColor}]}
-                        onPress ={() => this.props.setRemoveItem(item.id)}>
-                        <Icon name="trash" class="fas fa-coffee fa-sm" size={23} color={theme.iconColor} />
-                        
-                    </TouchableOpacity>
-                    <TouchableOpacity style = {[styles.buttonTempStyle , { backgroundColor : theme.blueButton ,borderColor :theme.fontColor}]}
-                        onPress ={() => this.props.navigation.navigate("Edit" ,{"item" : item})}
-                        >
-                        <Icon name="edit" class="fas fa-coffee fa-sm" size={23} color={theme.iconColor} />
-                    </TouchableOpacity>
-                    
-                    
                     
                     <TouchableOpacity 
                     style = {[styles.buttonTempStyle , { backgroundColor : theme.redButton , borderColor :theme.fontColor}]}
@@ -140,8 +149,9 @@ const {width} = Dimensions.get('window');
                 
                 </View>
 
-            </View>
-        </Animated.View>
+            </Animated.View>
+            
+        </View>
         )
     }
 }
@@ -155,7 +165,7 @@ const styles = StyleSheet.create({
         flex : 1,
         alignContent  : 'center',
         marginTop : 10,
-        zIndex:-1
+        
       },
       justPadding :{
         paddingRight : 20
@@ -167,6 +177,44 @@ const styles = StyleSheet.create({
         marginBottom : 15,
         alignItems : 'center',
         
+      },
+
+      rowBack: {
+        alignItems: 'center',
+        backgroundColor: '#DDD',
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        padding: 35,
+      },
+      editBack :{
+        alignItems: 'flex-end',
+       flex : 1,
+        justifyContent : 'center',
+        // width : dim.width - 200 ,
+        // height : 100,
+        borderRadius : 10,
+      },
+      deleteBack :{
+        justifyContent : 'center',
+        alignItems: 'center',
+        width : 75,
+        height : 60,
+        borderTopRightRadius : 10,
+        borderBottomRightRadius : 10,
+      },
+      absoluteCell: {
+        position: 'absolute',
+        alignItems: 'center',
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        padding: 35,
+      },
+
+      absoluteCellText: {
+        margin: 16,
+        color: '#FFF',
       },
     itemContainer :{
         borderRadius : 10 ,

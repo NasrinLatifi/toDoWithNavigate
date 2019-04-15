@@ -73,7 +73,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
             style = {styles.backButton}
             onPress = {() => {
               params.prps.setType (params.name),
-              params.props.setStep('None'),
+              // params.props.setStep('None'),
               navigation.goBack()
               }}>
               <Image 

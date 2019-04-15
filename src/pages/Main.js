@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, StyleSheet, Image, TouchableOpacity , Alert , View , FlatList , Animated , Dimensions}  from 'react-native';
+import {Text, StyleSheet, Image, TouchableOpacity , Alert , View , FlatList , Animated , Dimensions , PanResponder}  from 'react-native';
 import{connect} from 'react-redux';
 import{ setSearchItem , setType , setRemoveItem , setItem , setStep , editStep} from '../service/FetchService/action';
 import {ThemeContext} from '../components/ThemeContext'
@@ -12,9 +12,26 @@ class Main extends Component {
   constructor (props) {
     super(props)
     this.setScrollEnabled = this.setScrollEnabled.bind(this);
+    const position = new Animated.ValueXY();
+        const panResponder = PanResponder.create({
+          onStartShouldSetPanResponder: (evt, gestureState) => true,
+          onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
+          onMoveShouldSetPanResponder: (evt, gestureState) => true,
+          onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
+           onPanResponderMove: (event, gestureState) => {
+              position.setValue({ x: gestureState.dx, y: gestureState.dy });
+           },
+           onPanResponderRelease: (evt, gestureState) => {
+            position.setValue({ x: gestureState.dx, y: gestureState.dy });
+          },
+      });
+        
+
     this.state = {
       spinValue : new Animated.Value(0),
       opacityValue : new Animated.Value(0),
+      position,
+      panResponder,
       text : '',
       color : '#303451',
       name : '',
@@ -146,6 +163,7 @@ renderItem(item) {
   );
 }
     render(){
+      let handles = this.state.panResponder.panHandlers;
       const opacity = this.state.opacityValue.interpolate({
         inputRange: [0,  1],
         outputRange: [0, 1]
@@ -177,12 +195,16 @@ renderItem(item) {
                       keyExtractor = {item => item.id.toString()}
                       renderItem={({item}) => this.renderItem(item)}
                       scrollEnabled={this.state.enable}
+                      
                       />
+                    {/* <Animated.View  style = {[styles.addStyle , this.state.position.getLayout()]} {...handles}>> */}
                       <TouchableOpacity 
                       onPress ={() => this.props.navigation.navigate("Add" ,{"name" : this.props.type})}
-                        style = {styles.addStyle}>
+                        style = {styles.addStyle} >
                           <Icon name="plus-circle" class="fas fa-coffee fa-2x" size={70} color={theme.redButton} />
-                        </TouchableOpacity>
+                      </TouchableOpacity>
+                    {/* </Animated.View>                       */}
+                  
                       
                   </View>
                 }
