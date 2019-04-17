@@ -16,10 +16,9 @@ const dim = Dimensions.get('window')
         const position = new Animated.ValueXY();
         const panResponder = PanResponder.create({
             onStartShouldSetPanResponder: (evt, gestureState) => true,
-            // onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
+            onStartShouldSetPanResponderCapture: (evt, gestureState) => false,
             onMoveShouldSetPanResponder: (evt, gestureState) => true,
             onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
-            onStartShouldSetPanResponderCapture: (evt, gestureState) => false,
             onPanResponderMove: (evt, gestureState) => {
             if ( gestureState.dx < -35 ) {
             //   this.setScrollViewEnabled(false);

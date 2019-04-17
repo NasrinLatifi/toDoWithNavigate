@@ -1,16 +1,18 @@
 import React, {Component} from 'react';
-import {Text, StyleSheet, Image, TouchableOpacity , Alert , View , FlatList , Animated , Dimensions , PanResponder}  from 'react-native';
+import {Text, StyleSheet, Image, TouchableOpacity , Alert , View , FlatList , BackHandler , Animated , Dimensions , PanResponder}  from 'react-native';
 import{connect} from 'react-redux';
 import{ setSearchItem , setType , setRemoveItem , setItem , setStep , editStep} from '../service/FetchService/action';
 import {ThemeContext} from '../components/ThemeContext'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Item from '../components/MainItem'
-import { SwipeListView , SwipeRow } from 'react-native-swipe-list-view';
+import ModalComponent from '../components/ModalComponent'
+
 const dim = Dimensions.get('window')
 class Main extends Component {
   
   constructor (props) {
     super(props)
+    this.exitAlert = this.exitAlert.bind(this);
     this.setScrollEnabled = this.setScrollEnabled.bind(this);
     const position = new Animated.ValueXY();
         const panResponder = PanResponder.create({
@@ -36,9 +38,28 @@ class Main extends Component {
       color : '#303451',
       name : '',
       enable: true,
+      Alert_Visibility : true
+      
     }
   }
-  
+
+
+  exitAlert = () => {
+    Alert.alert(
+      'Confirm exit',
+      'Do you want to quit the app?',
+        [
+            {text: 'Yes', onPress: () => BackHandler.exitApp()},
+            {text: 'No'}
+        ],
+        {cancelable: false},
+    );
+    return true;
+};
+
+visible = () => {
+  this.setState({Alert_Visibility: !this.state.Alert_Visibility});
+};
   chooseColor(type) {
     switch (type) {
       case "Work":
@@ -58,6 +79,8 @@ class Main extends Component {
 
     }
   }
+
+ 
 
   componentDidMount (){
     this.props.setStep('None')
@@ -94,10 +117,12 @@ class Main extends Component {
   }
 
   componentWillMount(){
+    BackHandler.addEventListener('eventName', this.exitAlert);
+
     this.props.setType(this.props.type)
     this.props.setStep('None')
     const name = this.props.type;
-    this.props.navigation.setParams({name});
+    this.props.navigation.setParams({name });
   }
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
@@ -127,12 +152,14 @@ class Main extends Component {
                 source = {require('../assests/search.png')}/>
             </TouchableOpacity>
 
-            <TouchableOpacity 
+            <TouchableOpacity
+            // onPress = {this.setState({Alert_Visibility: !params.stt.Alert_Visibility})} 
             style = {styles.drawerBottonRight}>
                 <Image 
                 style = {styles.threeStyle}
                 source = {require('../assests/3.png')}/>
             </TouchableOpacity>
+            {/* <Text>{Visibility}</Text> */}
          </View>
          
         ),
@@ -174,8 +201,9 @@ renderItem(item) {
             outputRange: ['0deg', '360deg']
         })
         return(
+                
             <Animated.View style = {[styles.container , {backgroundColor: theme.backgroundColor}]}>
-             
+                      
                 {
                   this.props.loading && 
                     <View style = {styles.animatedStyle}>
@@ -208,7 +236,7 @@ renderItem(item) {
                       
                   </View>
                 }
-                
+                       
             </Animated.View>
             
         )
